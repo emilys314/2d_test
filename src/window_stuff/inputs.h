@@ -5,8 +5,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-class Inputs
-{
+class Inputs {
 private:
     int current_width = 800;
     int current_height = 600;
@@ -16,8 +15,7 @@ private:
     int keys [512] = {};
 
 public:
-    Inputs(GLFWwindow *glfwwindow)
-    {
+    Inputs(GLFWwindow *glfwwindow) {
         this->glfwwindow = glfwwindow;
 
         glfwSetWindowUserPointer(glfwwindow, static_cast<void *>(this));
