@@ -6,7 +6,6 @@
 #include <map>
 
 #include "../entity_stuff/entity_manager.h"
-#include "../graphics/camera.h"
 #include "../graphics/renderer.h"
 #include "../logic_stuff/actions.h"
 #include "../window_stuff/inputs.h"
@@ -14,11 +13,11 @@
 
 class State {
 private:
-    Camera cam = Camera();
     Renderer renderer;
     Actions actions;
 
     Entity_Manager entity_manager = Entity_Manager();
+    int main_cam;
 
 public:
     State(Window window) {
@@ -27,14 +26,17 @@ public:
 
         unsigned int texture = load_texture_2d("res/wall.jpg");
         int first = entity_manager.createEntity("first");
-        entity_manager.setModel(first, glm::vec3(0.0f, 0.0f, 0.0f), texture);
+        entity_manager.setSquare(first, glm::vec3(0.0f, 0.0f, 0.0f), texture);
         int second = entity_manager.createEntity("");
-        entity_manager.setModel(second, glm::vec3(2.0f, 0.0f, 0.0f), texture);
+        entity_manager.setSquare(second, glm::vec3(2.0f, 0.0f, 0.0f), texture);
+
+        main_cam = entity_manager.createEntity("camera");
+        entity_manager.setCamera(main_cam, glm::vec3(0.0f, 0.0f, 1.0f));
     }
 
     void do_stuff(Window &window, Inputs &inputs) {
-        actions.processCamera(window.getGlfwWindow(), inputs, cam);
-        renderer.render(window, cam, entity_manager);
+        actions.processCamera(window.getGlfwWindow(), inputs, entity_manager.getCamera(main_cam));
+        renderer.render(window, main_cam, entity_manager);
     }
 
     Entity_Manager &getEntities() {

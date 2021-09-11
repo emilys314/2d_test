@@ -8,7 +8,6 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "../window_stuff/inputs.h"
-#include "../graphics/camera.h"
 
 class Actions {
 private:
@@ -16,7 +15,7 @@ private:
     float lastFrame = 0.0f; // Time of last frame
 
 public:
-    void processCamera(GLFWwindow *window, Inputs &inputs, Camera &camera) {
+    void processCamera(GLFWwindow *window, Inputs &inputs, glm::vec3 &cam_pos) {
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
@@ -25,13 +24,13 @@ public:
             glfwSetWindowShouldClose(window, true);
         float cameraSpeed = 2.5f * deltaTime;
         if (inputs.getKey(GLFW_KEY_W) >= GLFW_PRESS)
-            camera.setPosition(camera.getPosition() + glm::vec3(0.0f, 1.0f, 0.0f) * cameraSpeed);
+            cam_pos += glm::vec3(0.0f, 1.0f, 0.0f) * cameraSpeed;
         if (inputs.getKey(GLFW_KEY_S) >= GLFW_PRESS)
-            camera.setPosition(camera.getPosition() - glm::vec3(0.0f, 1.0f, 0.0f) * cameraSpeed);
+            cam_pos -= glm::vec3(0.0f, 1.0f, 0.0f) * cameraSpeed;
         if (inputs.getKey(GLFW_KEY_A) >= GLFW_PRESS)
-            camera.setPosition(camera.getPosition() - glm::vec3(1.0f, 0.0f, 0.0f) * cameraSpeed);
+            cam_pos -= glm::vec3(1.0f, 0.0f, 0.0f) * cameraSpeed;
         if (inputs.getKey(GLFW_KEY_D) >= GLFW_PRESS)
-            camera.setPosition(camera.getPosition() + glm::vec3(1.0f, 0.0f, 0.0f) * cameraSpeed);
+            cam_pos += glm::vec3(1.0f, 0.0f, 0.0f) * cameraSpeed;
     }
 };
 
