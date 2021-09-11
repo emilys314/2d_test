@@ -24,11 +24,17 @@ public:
         renderer = Renderer(window);
         actions = Actions();
 
-        unsigned int texture = load_texture_2d("res/wall.jpg");
-        int first = entity_manager.createEntity("first");
-        entity_manager.setSquare(first, glm::vec3(0.0f, 0.0f, 0.0f), texture);
-        int second = entity_manager.createEntity("");
-        entity_manager.setSquare(second, glm::vec3(2.0f, 0.0f, 0.0f), texture);
+        unsigned int texture = load_texture_2d("res/grass.png");
+        // int first = entity_manager.createEntity("first");
+        // entity_manager.setSquare(first, glm::vec3(0.0f, 0.0f, 0.0f), texture);
+        // int second = entity_manager.createEntity();
+        // entity_manager.setSquare(second, glm::vec3(2.0f, 0.0f, 0.0f), texture);
+        for (int x = -4; x <=4; x++) {
+            for (int y = -4; y <=4; y++) {
+                int id = entity_manager.createEntity();
+                entity_manager.setSquare(id, glm::vec3(x, y, 0.0f), texture);
+            }
+        }
 
         main_cam = entity_manager.createEntity("camera");
         entity_manager.setCamera(main_cam, glm::vec3(0.0f, 0.0f, 1.0f));
