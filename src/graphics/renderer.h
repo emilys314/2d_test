@@ -14,7 +14,7 @@
 #include "camera.h"
 #include "../res_loader/model_square.h"
 #include "../res_loader/texture_loader.h"
-#include "../scene_stuff/scene.h"
+#include "../entity_stuff/entity_manager.h"
 #include "../window_stuff/window.h"
 
 
@@ -26,6 +26,8 @@ private:
     unsigned int texture;
 
 public:
+    Renderer() {}
+    
     Renderer(Window &window) {
         // build and compile our shader zprogram
         shader_basic = Shader("src/graphics/shader.vs", "src/graphics/shader.fs");
@@ -34,12 +36,12 @@ public:
         square = Model_Square();
     }
 
-    void render(Window &window, Camera &camera, Scene &scene) {  
+    void render(Window &window, Camera &camera, Entity_Manager &entity_manager) {  
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         shader_basic.use();
-        for (auto const& [id, model] : scene.getEntities().getSquares()) {
+        for (auto const& [id, model] : entity_manager.getSquares()) {
             // bind Texture
             glBindTexture(GL_TEXTURE_2D, model.texture);
 
