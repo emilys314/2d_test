@@ -1,5 +1,5 @@
-#ifndef SCENE_H
-#define SCENE_H
+#ifndef STATE_H
+#define STATE_H
 
 #include <iostream>
 #include <string>
@@ -12,7 +12,7 @@
 #include "../window_stuff/inputs.h"
 #include "../window_stuff/window.h"
 
-class Scene {
+class State {
 private:
     Camera cam = Camera();
     Renderer renderer;
@@ -21,7 +21,7 @@ private:
     Entity_Manager entity_manager = Entity_Manager();
 
 public:
-    Scene(Window window) {
+    State(Window window) {
         renderer = Renderer(window);
         actions = Actions();
 
