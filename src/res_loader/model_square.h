@@ -1,5 +1,5 @@
-#ifndef SQUARE_MODEL_H
-#define SQUARE_MODEL_H
+#ifndef MODEL_SQUARE_H
+#define MODEL_SQUARE_H
 
 #include <glad/glad.h>
 
@@ -15,14 +15,14 @@ unsigned int indices[] = {
     1, 2, 3  // second triangle
 };
 
-class Square {
+class Model_Square {
 private:
     unsigned int VBO;       // Vertex Buffor Object
     unsigned int VAO;       // Vertex Array Object
     unsigned int EBO;       // Element Buffer Object
 
 public:
-    Square() {
+    Model_Square() {
         glGenVertexArrays(1, &VAO);
         glGenBuffers(1, &VBO);
         glGenBuffers(1, &EBO);

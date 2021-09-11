@@ -75,6 +75,18 @@ public:
     void getFramebufferSize(int* width, int* height) {
         glfwGetFramebufferSize(this->glfwwindow, width, height);
     }
+
+    int getFrameWidth() {
+        int width, height;
+        glfwGetFramebufferSize(this->glfwwindow, &width, &height);
+        return width;
+    }
+
+    int getFrameHeight() {
+        int width, height;
+        glfwGetFramebufferSize(this->glfwwindow, &width, &height);
+        return height;
+    }
 };
 
 #endif
