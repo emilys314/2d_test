@@ -14,6 +14,8 @@ private:
     float deltaTime = 0.0f; // Time between current frame and last frame
     float lastFrame = 0.0f; // Time of last frame
 
+
+
 public:
     void processCamera(GLFWwindow *window, Inputs &inputs, glm::vec3 &cam_pos) {
         float currentFrame = glfwGetTime();
@@ -23,14 +25,23 @@ public:
         if (inputs.getKey(GLFW_KEY_ESCAPE) >= GLFW_PRESS)
             glfwSetWindowShouldClose(window, true);
         float cameraSpeed = 2.5f * deltaTime;
-        if (inputs.getKey(GLFW_KEY_W) >= GLFW_PRESS)
+        if (inputs.getKey(GLFW_KEY_UP) >= GLFW_PRESS)
             cam_pos += glm::vec3(0.0f, 1.0f, 0.0f) * cameraSpeed;
-        if (inputs.getKey(GLFW_KEY_S) >= GLFW_PRESS)
+        if (inputs.getKey(GLFW_KEY_DOWN) >= GLFW_PRESS)
             cam_pos -= glm::vec3(0.0f, 1.0f, 0.0f) * cameraSpeed;
-        if (inputs.getKey(GLFW_KEY_A) >= GLFW_PRESS)
+        if (inputs.getKey(GLFW_KEY_LEFT) >= GLFW_PRESS)
             cam_pos -= glm::vec3(1.0f, 0.0f, 0.0f) * cameraSpeed;
-        if (inputs.getKey(GLFW_KEY_D) >= GLFW_PRESS)
+        if (inputs.getKey(GLFW_KEY_RIGHT) >= GLFW_PRESS)
             cam_pos += glm::vec3(1.0f, 0.0f, 0.0f) * cameraSpeed;
+    }
+
+    void processMovementInput(Inputs &inputs) {
+        int input_move_up = GLFW_KEY_W;
+        int input_move_down = GLFW_KEY_S;
+        int input_move_left = GLFW_KEY_A;
+        int input_move_right = GLFW_KEY_D;
+
+        // if (inputs.getKey(input_move_up)) 
     }
 };
 

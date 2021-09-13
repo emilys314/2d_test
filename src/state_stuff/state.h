@@ -8,27 +8,33 @@
 #include "../entity_stuff/entity_manager.h"
 #include "../graphics/renderer.h"
 #include "../logic_stuff/actions.h"
+#include "../logic_stuff/player_movement.h"
+#include "../logic_stuff/timer.h"
 #include "../window_stuff/inputs.h"
 #include "../window_stuff/window.h"
 
 class State {
 private:
     Renderer renderer;
+    Timer timer;
     Actions actions;
 
     Entity_Manager entity_manager = Entity_Manager();
     int main_cam;
+    int player;
 
 public:
     State(Window window) {
         renderer = Renderer(window);
+        timer = Timer();
         actions = Actions();
 
+        unsigned int tex_player = load_texture_2d("res/player.png");
+        player = entity_manager.createEntity();
+        entity_manager.setSquare(player, glm::vec3(0.0f, 0.0f, 0.5f), tex_player);
+        entity_manager.setPlayer(player, true);
+
         unsigned int texture = load_texture_2d("res/grass.png");
-        // int first = entity_manager.createEntity("first");
-        // entity_manager.setSquare(first, glm::vec3(0.0f, 0.0f, 0.0f), texture);
-        // int second = entity_manager.createEntity();
-        // entity_manager.setSquare(second, glm::vec3(2.0f, 0.0f, 0.0f), texture);
         for (int x = -4; x <=4; x++) {
             for (int y = -4; y <=4; y++) {
                 int id = entity_manager.createEntity();
@@ -38,9 +44,12 @@ public:
 
         main_cam = entity_manager.createEntity("camera");
         entity_manager.setCamera(main_cam, glm::vec3(0.0f, 0.0f, 1.0f));
+
     }
 
     void do_stuff(Window &window, Inputs &inputs) {
+        timer.setTime();
+        processPlayerMovement(timer, inputs, entity_manager, player);
         actions.processCamera(window.getGlfwWindow(), inputs, entity_manager.getCamera(main_cam));
         renderer.render(window, main_cam, entity_manager);
     }

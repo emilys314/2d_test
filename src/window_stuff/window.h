@@ -38,9 +38,6 @@ public:
             std::cout << "Failed to initialize GLAD" << std::endl;
             glfwTerminate();
         }
-
-        glEnable(GL_DEPTH_TEST);
-
         
         glfwSetWindowUserPointer(glfwwindow, static_cast<void *>(this));
         glfwSetFramebufferSizeCallback(this->glfwwindow, [](GLFWwindow *window, int width, int height) {

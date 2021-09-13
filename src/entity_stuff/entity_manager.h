@@ -17,12 +17,12 @@ struct Square {
 
 class Entity_Manager {
 private:
-    std::map<int, std::string> entity_ids = {};
     int next_id = 0;
 
+    std::map<int, std::string> entity_ids = {};
     std::map<int, Square> squares = {};
-
     std::map<int, glm::vec3> cameras = {};
+    std::map<int, bool> players = {};
 
 public:
     Entity_Manager() { }
@@ -45,7 +45,7 @@ public:
         squares.emplace(id, square);
     }
 
-    Square getSquare(int id) {
+    Square &getSquare(int id) {
         return squares[id];
     }
 
@@ -68,6 +68,14 @@ public:
         glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
         return glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+    }
+
+    void setPlayer(int id, bool active) {
+        players.emplace(id, active);
+    }
+
+    bool &getPlayer(int id) {
+        return players[id];
     }
 
 };
