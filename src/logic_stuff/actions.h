@@ -24,15 +24,15 @@ public:
 
         if (inputs.getKey(GLFW_KEY_ESCAPE) >= GLFW_PRESS)
             glfwSetWindowShouldClose(window, true);
-        float cameraSpeed = 2.5f * deltaTime;
-        if (inputs.getKey(GLFW_KEY_UP) >= GLFW_PRESS)
-            cam_pos += glm::vec3(0.0f, 1.0f, 0.0f) * cameraSpeed;
-        if (inputs.getKey(GLFW_KEY_DOWN) >= GLFW_PRESS)
-            cam_pos -= glm::vec3(0.0f, 1.0f, 0.0f) * cameraSpeed;
-        if (inputs.getKey(GLFW_KEY_LEFT) >= GLFW_PRESS)
-            cam_pos -= glm::vec3(1.0f, 0.0f, 0.0f) * cameraSpeed;
-        if (inputs.getKey(GLFW_KEY_RIGHT) >= GLFW_PRESS)
-            cam_pos += glm::vec3(1.0f, 0.0f, 0.0f) * cameraSpeed;
+        // float cameraSpeed = 2.5f * deltaTime;
+        // if (inputs.getKey(GLFW_KEY_UP) >= GLFW_PRESS)
+        //     cam_pos += glm::vec3(0.0f, 1.0f, 0.0f) * cameraSpeed;
+        // if (inputs.getKey(GLFW_KEY_DOWN) >= GLFW_PRESS)
+        //     cam_pos -= glm::vec3(0.0f, 1.0f, 0.0f) * cameraSpeed;
+        // if (inputs.getKey(GLFW_KEY_LEFT) >= GLFW_PRESS)
+        //     cam_pos -= glm::vec3(1.0f, 0.0f, 0.0f) * cameraSpeed;
+        // if (inputs.getKey(GLFW_KEY_RIGHT) >= GLFW_PRESS)
+        //     cam_pos += glm::vec3(1.0f, 0.0f, 0.0f) * cameraSpeed;
     }
 
     void processMovementInput(Inputs &inputs) {

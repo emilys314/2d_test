@@ -42,6 +42,7 @@ public:
         glfwSetWindowUserPointer(glfwwindow, static_cast<void *>(this));
         glfwSetFramebufferSizeCallback(this->glfwwindow, [](GLFWwindow *window, int width, int height) {
                         auto self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+                        std::cout << width << " " << height << "\n";
                         glViewport(0, 0, width, height);
             });
 
