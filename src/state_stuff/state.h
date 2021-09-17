@@ -31,17 +31,27 @@ public:
         actions = Actions();
 
         unsigned int tex_player = load_texture_2d("res/player.png");
+        unsigned int tex_player_right = load_texture_2d("res/player_side.png");
+        unsigned int tex_player_left = load_texture_2d("res/player_left.png");
+        unsigned int tex_player_up = load_texture_2d("res/player_up.png");
         player = entity_manager.createEntity();
-        entity_manager.setSquare(player, glm::vec3(0.0f, 0.0f, 0.5f), tex_player);
+        entity_manager.setSquare(player, glm::vec3(0.0f, 0.0f, 0.5f), tex_player, glm::vec3(2.0f, 2.0f, 1.0f));
+        entity_manager.setDirectional(player, tex_player, tex_player_left, tex_player_right, tex_player_up, SOUTH);
         entity_manager.setPlayer(player, true);
+        entity_manager.setBoundingBox(player, glm::vec3(-0.25f, -0.25f, 0.0f), glm::vec3(0.25f, 0.25f, 0.0f));
 
-        unsigned int texture = load_texture_2d("res/cave_rock.png");
+        unsigned int texture = load_texture_2d("res/grass_16.png");
         for (int x = -6; x <=6; x++) {
             for (int y = -6; y <=6; y++) {
                 int id = entity_manager.createEntity();
                 entity_manager.setSquare(id, glm::vec3(x, y, 0.0f), texture);
             }
         }
+
+        unsigned int tex_rock = load_texture_2d("res/rock.png");
+        int rock = entity_manager.createEntity();
+        entity_manager.setSquare(rock, glm::vec3(2.0f, 3.0f, 0.4f), tex_rock, glm::vec3(1.0f, 1.0f, 1.0f));
+        entity_manager.setBoundingBox(rock, glm::vec3(-0.25f, -0.25f, 0.0f), glm::vec3(0.25f, 0.25f, 0.0f));
 
         main_cam = entity_manager.createEntity("camera");
         entity_manager.setCamera(main_cam, glm::vec3(0.0f, 0.0f, 1.0f));
@@ -52,6 +62,7 @@ public:
         timer.setTime();
         processPlayerMovement(timer, inputs, entity_manager, player);
         updateCameraPosition(entity_manager, main_cam, player);
+        updateDirections(entity_manager);
         actions.processCamera(window.getGlfwWindow(), inputs, entity_manager.getCamera(main_cam));
         renderer.render(window, main_cam, entity_manager);
     }

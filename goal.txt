@@ -1,0 +1,38 @@
+enemy attacks your village while you save a lost dog.
+you have to journey through now enemy territory to get to safe haeven.
+
+UI
+- health, energy, items, chest
+ENVIRONMENT
+-walls
+-town
+CREATURES
+-playar
+  -items
+-enemies
+  -ai
+-boss
+
+
+
+
+
+
+Wall collision
+-make wall texture
+-make wall entity 
+-make collision logic
+
+Cabin/house
+Wilderness beyond
+Dog
+Bear attack
+
+
+[WIP]Player 4 directions
+-direction textures
+-movement change texture
+
+[DONE]center cam on player:
+--base off position
+--correct with window scale

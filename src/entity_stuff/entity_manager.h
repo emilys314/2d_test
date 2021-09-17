@@ -12,10 +12,32 @@
 
 struct Square {
     glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
-    unsigned int texture;
+    glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f);
+    unsigned int texture;       //texture id
 };
 
-class Entity_Manager {
+enum Directions {
+    SOUTH = 0,
+    WEST = 1,
+    EAST = 2,
+    NORTH = 3
+};
+
+struct Directional {
+    unsigned int south_texture;
+    unsigned int west_texture;
+    unsigned int east_texture;
+    unsigned int north_texture;
+    int direction = SOUTH;
+};
+
+struct BoundingBox {
+    glm::vec3 bottom_right;
+    glm::vec3 top_left;
+};
+
+class Entity_Manager
+{
 private:
     int next_id = 0;
 
@@ -23,6 +45,8 @@ private:
     std::map<int, Square> squares = {};
     std::map<int, glm::vec3> cameras = {};
     std::map<int, bool> players = {};
+    std::map<int, Directional> directionals = {};
+    std::map<int, BoundingBox> boundingBoxes = {};
 
 public:
     Entity_Manager() { }
@@ -40,8 +64,8 @@ public:
     //TODO delete and reuse deleted id's
 
     //// Square ////
-    void setSquare(int id, glm::vec3 pos, unsigned int tex) {
-        Square square = {pos, tex};
+    void setSquare(int id, glm::vec3 pos, unsigned int tex, glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f)) {
+        Square square = {pos, scale, tex};
         squares.emplace(id, square);
     }
 
@@ -78,6 +102,38 @@ public:
         return players[id];
     }
 
+    //// Directions ////
+    void setDirectional(int id, unsigned int south_texture, unsigned int west_texture , unsigned int east_texture, unsigned int north_texture, int direction) {
+        Directional dir = {south_texture, west_texture, east_texture, north_texture, direction};
+        directionals.emplace(id, dir);
+    }
+
+    Directional &getDirectional(int id) {
+        return directionals[id];
+    }
+
+    std::map<int, Directional> &getDirectionals() {
+        return directionals;
+    }
+
+    void setDirection(int id, int direction) {
+        directionals[id].direction = direction;
+    }
+
+
+    //// Bounding Boxes ////
+    void setBoundingBox(int id, glm::vec3 bottom_left, glm::vec3 top_right) {
+        BoundingBox box = {bottom_left, top_right};
+        boundingBoxes.emplace(id, box);
+    }
+
+    BoundingBox &getBoundingBox(int id) {
+        return boundingBoxes[id];
+    }
+
+    std::map<int, BoundingBox> &getBoundingBoxes() {
+        return boundingBoxes;
+    }
 };
 
 #endif
