@@ -32,8 +32,8 @@ struct Directional {
 };
 
 struct BoundingBox {
-    glm::vec3 bottom_right;
-    glm::vec3 top_left;
+    float xmin, xmax;
+    float ymin, ymax;
 };
 
 class Entity_Manager
@@ -122,8 +122,8 @@ public:
 
 
     //// Bounding Boxes ////
-    void setBoundingBox(int id, glm::vec3 bottom_left, glm::vec3 top_right) {
-        BoundingBox box = {bottom_left, top_right};
+    void setBoundingBox(int id, float xmin, float xmax, float ymin, float ymax) {
+        BoundingBox box = {xmin, xmax, ymin, ymax};
         boundingBoxes.emplace(id, box);
     }
 

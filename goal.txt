@@ -18,10 +18,8 @@ CREATURES
 
 
 
-Wall collision
--make wall texture
--make wall entity 
--make collision logic
+
+
 
 Cabin/house
 Wilderness beyond
@@ -29,7 +27,13 @@ Dog
 Bear attack
 
 
-[WIP]Player 4 directions
+
+[DONE]Wall collision
+-make wall texture
+-make wall entity 
+-make collision logic
+
+[DONE]Player 4 directions
 -direction textures
 -movement change texture
 
