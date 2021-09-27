@@ -18,30 +18,32 @@ bool isOverlapping1D(float xmin1, float xmax1, float xmin2, float xmax2) {
 
 
 void processPlayerMovement(Timer timer, Inputs &inputs, Entity_Manager &entity_manager, int player_id) {
-    float speed = 2.5f * timer.getDeltaTime();
+    float speed = 32.0f * timer.getDeltaTime();
 
-    glm::vec3 direction = glm::vec3(0.0f, 0.0f, 0.0f);
+    std::cout << "speed: " << speed << "\n";
+
+    glm::vec2 direction = glm::vec2(0.0f, 0.0f);
     if (inputs.getKey(GLFW_KEY_W) >= GLFW_PRESS) {
-        direction += glm::vec3(0.0f, speed, 0.0f);
+        direction += glm::vec2(0.0f, speed);
         entity_manager.getDirectional(player_id).direction = NORTH;
     }
     if (inputs.getKey(GLFW_KEY_S) >= GLFW_PRESS) {
-        direction -= glm::vec3(0.0f, speed, 0.0f);
+        direction -= glm::vec2(0.0f, speed);
         entity_manager.getDirectional(player_id).direction = SOUTH;
     }
     if (inputs.getKey(GLFW_KEY_A) >= GLFW_PRESS) {
-        direction -= glm::vec3(speed, 0.0f, 0.0f);
+        direction -= glm::vec2(speed, 0.0f);
         entity_manager.getDirectional(player_id).direction = WEST;
     }
     if (inputs.getKey(GLFW_KEY_D) >= GLFW_PRESS) {
-        direction += glm::vec3(speed, 0.0f, 0.0f);
+        direction += glm::vec2(speed, 0.0f);
         entity_manager.getDirectional(player_id).direction = EAST;
     }
 
-    if (glm::length(direction) > 1) 
-        direction = glm::normalize(direction);
+    // if (direction.x != 0. && direction.y != 0) 
+    //     direction = glm::vec2(2.83f, 2.83f);
 
-    glm::vec3 new_position = entity_manager.getSquare(player_id).position + direction;
+    glm::vec2 new_position = entity_manager.getSquare(player_id).position + direction;
 
     float xmin1 = new_position.x + entity_manager.getBoundingBox(player_id).xmin;
     float xmax1 = new_position.x + entity_manager.getBoundingBox(player_id).xmax;
@@ -66,6 +68,8 @@ void processPlayerMovement(Timer timer, Inputs &inputs, Entity_Manager &entity_m
                 
         }
     }
+
+
 
     if (!collision)
         entity_manager.getSquare(player_id).position = new_position;

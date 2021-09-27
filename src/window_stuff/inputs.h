@@ -22,7 +22,7 @@ public:
         glfwSetKeyCallback(this->glfwwindow, [](GLFWwindow *window, int key, int scancode, int action, int mods)
                            {
                                auto self = static_cast<Inputs *>(glfwGetWindowUserPointer(window));
-                               std::cout << "Key " << glfwGetKeyName(key, 0) << " " << action << "\n";
+                            //    std::cout << "Key " << glfwGetKeyName(key, 0) << " " << action << "\n";
                                self->keys[key] = action;
                            });
     }

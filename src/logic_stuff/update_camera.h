@@ -12,7 +12,7 @@
 #include "../window_stuff/inputs.h"
 
 void updateCameraPosition(Entity_Manager &entity_manager, int camera_id, int player_id) {
-    entity_manager.getCamera(camera_id) = entity_manager.getSquare(player_id).position;
+    entity_manager.getCamera(camera_id) = glm::vec3(entity_manager.getSquare(player_id).position, 1.0f);
 }
 
 #endif

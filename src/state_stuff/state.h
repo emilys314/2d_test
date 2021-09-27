@@ -31,31 +31,31 @@ public:
         actions = Actions();
 
         unsigned int tex_player = load_texture_2d("res/player.png");
-        unsigned int tex_player_right = load_texture_2d("res/player_right.png");
+        unsigned int tex_player_right = load_texture_2d("res/player_side.png");
         unsigned int tex_player_left = load_texture_2d("res/player_left.png");
         unsigned int tex_player_up = load_texture_2d("res/player_up.png");
         player = entity_manager.createEntity();
-        entity_manager.setSquare(player, glm::vec3(0.0f, 0.0f, 0.5f), tex_player, glm::vec3(2.0f, 2.0f, 1.0f));
+        entity_manager.setSquare(player, glm::vec2(0.0f, 0.0f), 0.5f, tex_player, glm::vec2(2.0f, 2.0f));
         entity_manager.setDirectional(player, tex_player, tex_player_left, tex_player_right, tex_player_up, SOUTH);
         entity_manager.setPlayer(player, true);
-        entity_manager.setBoundingBox(player, -0.3f, 0.3f, -0.9f, 0.0f);
+        entity_manager.setBoundingBox(player, -8.0f, 8.0f, -16.0f, 0.0f);
 
         unsigned int texture = load_texture_2d("res/grass_16.png");
         for (int x = -6; x <=6; x++) {
             for (int y = -6; y <=6; y++) {
                 int id = entity_manager.createEntity();
-                entity_manager.setSquare(id, glm::vec3(x, y, 0.0f), texture);
+                entity_manager.setSquare(id, glm::vec2(x*16, y*16), 0.0f, texture);
             }
         }
 
         unsigned int tex_rock = load_texture_2d("res/rock.png");
         int rock = entity_manager.createEntity();
-        entity_manager.setSquare(rock, glm::vec3(2.0f, 3.0f, 0.4f), tex_rock, glm::vec3(1.0f, 1.0f, 1.0f));
-        entity_manager.setBoundingBox(rock, -0.45f, 0.45f, -0.45f, 0.45f);
+        entity_manager.setSquare(rock, glm::vec2(2.0f * 16, 3.0f * 16), 0.4f, tex_rock);
+        entity_manager.setBoundingBox(rock, -7.0f, 7.0f, -7.0f, 7.0f);
 
         int rock2 = entity_manager.createEntity();
-        entity_manager.setSquare(rock2, glm::vec3(-2.0f, 2.0f, 0.4f), tex_rock, glm::vec3(1.0f, 1.0f, 1.0f));
-        entity_manager.setBoundingBox(rock2, -0.45f, 0.45f, -0.45f, 0.45f);
+        entity_manager.setSquare(rock2, glm::vec2(-2.0f * 16, 2.0f * 16), 0.4f, tex_rock);
+        entity_manager.setBoundingBox(rock2, -7.0f, 7.0f, -7.0f, 7.0f);
 
         main_cam = entity_manager.createEntity("camera");
         entity_manager.setCamera(main_cam, glm::vec3(0.0f, 0.0f, 1.0f));

@@ -1,6 +1,16 @@
 enemy attacks your village while you save a lost dog.
 you have to journey through now enemy territory to get to safe haeven.
 
+## Idea
+You go around hunting monsters (like the witcher) for locals. 
+Choose if you kill them or try to make peace.
+There is a vampire who kills livestock. You can: kill, or negotiate to stop.
+## Gameplay
+Low/no magic. Use sword and bow. Dash. Energy bar.
+Sword fighting is samuri/blade runner like, super nice and fluid
+Use dynamic environment for help?
+
+
 UI
 - health, energy, items, chest
 ENVIRONMENT

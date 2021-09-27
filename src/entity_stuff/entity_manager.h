@@ -11,8 +11,9 @@
 #include <glm/gtc/type_ptr.hpp>
 
 struct Square {
-    glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
-    glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f);
+    glm::vec2 position = glm::vec2(0.0f, 0.0f);
+    glm::vec2 scale = glm::vec2(1.0f, 1.0f);
+    float height;
     unsigned int texture;       //texture id
 };
 
@@ -36,6 +37,11 @@ struct BoundingBox {
     float ymin, ymax;
 };
 
+struct CollisionCircle {
+    float xoffset, yoffset;
+    float radius;
+};
+
 class Entity_Manager
 {
 private:
@@ -47,6 +53,7 @@ private:
     std::map<int, bool> players = {};
     std::map<int, Directional> directionals = {};
     std::map<int, BoundingBox> boundingBoxes = {};
+    std::map<int, CollisionCircle> collisionCircles = {};
 
 public:
     Entity_Manager() { }
@@ -64,8 +71,8 @@ public:
     //TODO delete and reuse deleted id's
 
     //// Square ////
-    void setSquare(int id, glm::vec3 pos, unsigned int tex, glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f)) {
-        Square square = {pos, scale, tex};
+    void setSquare(int id, glm::vec2 pos, float height, unsigned int tex, glm::vec2 scale = glm::vec2(1.0f, 1.0f)) {
+        Square square = {pos, scale, height, tex};
         squares.emplace(id, square);
     }
 
@@ -133,6 +140,20 @@ public:
 
     std::map<int, BoundingBox> &getBoundingBoxes() {
         return boundingBoxes;
+    }
+
+    //// Collision Circles ////
+    void setCollisionCircle(int id, float xoffset, float yoffset, float radius) {
+        CollisionCircle circle = {xoffset, yoffset, radius};
+        collisionCircles.emplace(id, circle);
+    }
+
+    CollisionCircle &getCollisionCircle(int id) {
+        return collisionCircles[id];
+    }
+
+    std::map<int, CollisionCircle> &getCollisionCircles() {
+        return collisionCircles;
     }
 };
 
