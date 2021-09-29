@@ -42,8 +42,7 @@ struct CollisionCircle {
     float radius;
 };
 
-class Entity_Manager
-{
+class Entity_Manager {
 private:
     int next_id = 0;
 

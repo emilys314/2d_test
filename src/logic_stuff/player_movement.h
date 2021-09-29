@@ -16,6 +16,10 @@ bool isOverlapping1D(float xmin1, float xmax1, float xmin2, float xmax2) {
     return (xmax1 >= xmin2) && (xmax2 >= xmin1);
 }
 
+// float getOverlapLength(float min1, float max1, float min2, float max2) {
+    
+// }
+
 
 void processPlayerMovement(Timer timer, Inputs &inputs, Entity_Manager &entity_manager, int player_id) {
     float speed = 32.0f * timer.getDeltaTime();
@@ -45,34 +49,39 @@ void processPlayerMovement(Timer timer, Inputs &inputs, Entity_Manager &entity_m
 
     glm::vec2 new_position = entity_manager.getSquare(player_id).position + direction;
 
+    // bounding box points for player
     float xmin1 = new_position.x + entity_manager.getBoundingBox(player_id).xmin;
     float xmax1 = new_position.x + entity_manager.getBoundingBox(player_id).xmax;
     float ymin1 = new_position.y + entity_manager.getBoundingBox(player_id).ymin;
     float ymax1 = new_position.y + entity_manager.getBoundingBox(player_id).ymax;
 
-    bool collision = false;
+    // loop through all bounding boxes
     for (auto const& [id, box] : entity_manager.getBoundingBoxes()) {
         if (id != player_id) {
+            // bounding box points for current entity
             float xmin2 = entity_manager.getSquare(id).position.x + box.xmin;
             float xmax2 = entity_manager.getSquare(id).position.x + box.xmax;
             float ymin2 = entity_manager.getSquare(id).position.y + box.ymin;
             float ymax2 = entity_manager.getSquare(id).position.y + box.ymax;
 
-            bool x_overlap = isOverlapping1D(xmin1, xmax1, xmin2, xmax2);
-            bool y_overlap = isOverlapping1D(ymin1, ymax1, ymin2, ymax2);
-
+            // if the bounding boxes overlap
             if (isOverlapping1D(xmin1, xmax1, xmin2, xmax2) && isOverlapping1D(ymin1, ymax1, ymin2, ymax2)) {
-                collision = true;
-                break;
+                glm::vec2 new_collision_center = glm::vec2((xmin1 + xmax1) / 2, (ymin1 + ymax1) / 2);
+                glm::vec2 old_collision_center = new_collision_center - direction;
+                glm::vec2 tmp_collision_center = glm::vec2((xmin2 + xmax2) / 2, (ymin2 + ymax2) / 2);
+
+                glm::vec2 diff = old_collision_center - tmp_collision_center;
+                // check if collision pair is more horizontal than vertical
+                if (abs(diff.x) > abs(diff.y))
+                    direction.x = 0.0f;     // resolve the illegal movement
+                else
+                    direction.y = 0.0f;
             }
                 
         }
     }
 
-
-
-    if (!collision)
-        entity_manager.getSquare(player_id).position = new_position;
+    entity_manager.getSquare(player_id).position += direction;
 }
 
 void updateDirections(Entity_Manager &entity_manager) {

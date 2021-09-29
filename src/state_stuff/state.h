@@ -32,7 +32,7 @@ public:
 
         unsigned int tex_player = load_texture_2d("res/player.png");
         unsigned int tex_player_right = load_texture_2d("res/player_side.png");
-        unsigned int tex_player_left = load_texture_2d("res/player_left.png");
+        unsigned int tex_player_left = load_texture_2d("res/player_side_flip.png");
         unsigned int tex_player_up = load_texture_2d("res/player_up.png");
         player = entity_manager.createEntity();
         entity_manager.setSquare(player, glm::vec2(0.0f, 0.0f), 0.5f, tex_player, glm::vec2(2.0f, 2.0f));
