@@ -24,7 +24,7 @@ static unsigned int load_texture_2d(char const *filename) {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
     } else {
-        std::cout << "Failed to load texture" << std::endl;
+        std::cout << "Failed to load texture | " << filename << std::endl;
     }
     stbi_image_free(data);
 

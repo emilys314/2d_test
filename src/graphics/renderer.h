@@ -49,12 +49,12 @@ public:
         shader_basic.use();
         for (auto const& [id, model] : entity_manager.getSquares()) {
             // bind Texture
-            glBindTexture(GL_TEXTURE_2D, model.texture);
+            glBindTexture(GL_TEXTURE_2D, model.textures[model.texture_index]);
 
             // model
             glm::mat4 mat_model = glm::translate(glm::mat4(1.0f), glm::vec3(model.position, model.height));
             mat_model = glm::scale(mat_model, glm::vec3(model.scale, 1.0f));
-            glm::mat4 mat_view = glm::translate(entity_manager.getCameraView(camera_id), glm::vec3(window.getFrameWidth() / (scale*2), window.getFrameHeight() / (scale*2), -1.0f));
+            glm::mat4 mat_view = glm::translate(entity_manager.getCameraView(camera_id), glm::vec3(window.getFrameWidth() / (scale*2), window.getFrameHeight() / (scale*2), 0.0f));
             glm::mat4 mat_projection = glm::ortho(0.0f, (float)window.getFrameWidth() / scale, 0.0f, window.getFrameHeight() / scale, 0.1f, 100.0f);
             glm::mat4 mat_mvp = mat_projection * mat_view * mat_model;
             int uni_mvp = glGetUniformLocation(shader_basic.ID, "uni_mvp"); 

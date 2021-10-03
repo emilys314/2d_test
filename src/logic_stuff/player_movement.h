@@ -12,19 +12,14 @@
 #include "../entity_stuff/entity_manager.h"
 #include "../window_stuff/inputs.h"
 
-bool isOverlapping1D(float xmin1, float xmax1, float xmin2, float xmax2) {
-    return (xmax1 >= xmin2) && (xmax2 >= xmin1);
-}
-
-// float getOverlapLength(float min1, float max1, float min2, float max2) {
-    
+// bool isOverlapping1D(float xmin1, float xmax1, float xmin2, float xmax2) {
+//     return (xmax1 >= xmin2) && (xmax2 >= xmin1);
 // }
 
-
 void processPlayerMovement(Timer timer, Inputs &inputs, Entity_Manager &entity_manager, int player_id) {
-    float speed = 32.0f * timer.getDeltaTime();
+    float speed = 64.0f * timer.getDeltaTime();
 
-    std::cout << "speed: " << speed << "\n";
+    // std::cout << "speed: " << speed << "\n";
 
     glm::vec2 direction = glm::vec2(0.0f, 0.0f);
     if (inputs.getKey(GLFW_KEY_W) >= GLFW_PRESS) {
@@ -42,59 +37,71 @@ void processPlayerMovement(Timer timer, Inputs &inputs, Entity_Manager &entity_m
     if (inputs.getKey(GLFW_KEY_D) >= GLFW_PRESS) {
         direction += glm::vec2(speed, 0.0f);
         entity_manager.getDirectional(player_id).direction = EAST;
+        // if (timer.getQuarterSecond()) {
+        //     entity_manager.getSquare(player_id).texture_index = (entity_manager.getSquare(player_id).texture_index + 1) % 4;
+        // }
     }
 
-    // if (direction.x != 0. && direction.y != 0) 
-    //     direction = glm::vec2(2.83f, 2.83f);
+    if (!inputs.getKey(GLFW_KEY_W) && !inputs.getKey(GLFW_KEY_S) && !(inputs.getKey(GLFW_KEY_A) >= GLFW_PRESS) && !(inputs.getKey(GLFW_KEY_D) >= GLFW_PRESS)) {
+        entity_manager.getSquare(player_id).texture_index = 0;
+    }
 
-    glm::vec2 new_position = entity_manager.getSquare(player_id).position + direction;
+    if (direction.x != 0. && direction.y != 0)
+        direction *= glm::vec2(0.7, 0.7f);
 
-    // bounding box points for player
-    float xmin1 = new_position.x + entity_manager.getBoundingBox(player_id).xmin;
-    float xmax1 = new_position.x + entity_manager.getBoundingBox(player_id).xmax;
-    float ymin1 = new_position.y + entity_manager.getBoundingBox(player_id).ymin;
-    float ymax1 = new_position.y + entity_manager.getBoundingBox(player_id).ymax;
 
-    // loop through all bounding boxes
-    for (auto const& [id, box] : entity_manager.getBoundingBoxes()) {
-        if (id != player_id) {
-            // bounding box points for current entity
-            float xmin2 = entity_manager.getSquare(id).position.x + box.xmin;
-            float xmax2 = entity_manager.getSquare(id).position.x + box.xmax;
-            float ymin2 = entity_manager.getSquare(id).position.y + box.ymin;
-            float ymax2 = entity_manager.getSquare(id).position.y + box.ymax;
+    entity_manager.getMovement(player_id).velocity = direction;
 
-            // if the bounding boxes overlap
-            if (isOverlapping1D(xmin1, xmax1, xmin2, xmax2) && isOverlapping1D(ymin1, ymax1, ymin2, ymax2)) {
-                glm::vec2 new_collision_center = glm::vec2((xmin1 + xmax1) / 2, (ymin1 + ymax1) / 2);
-                glm::vec2 old_collision_center = new_collision_center - direction;
-                glm::vec2 tmp_collision_center = glm::vec2((xmin2 + xmax2) / 2, (ymin2 + ymax2) / 2);
+    // glm::vec2 new_position = entity_manager.getSquare(player_id).position + direction;
 
-                glm::vec2 diff = old_collision_center - tmp_collision_center;
-                // check if collision pair is more horizontal than vertical
-                if (abs(diff.x) > abs(diff.y))
-                    direction.x = 0.0f;     // resolve the illegal movement
-                else
-                    direction.y = 0.0f;
-            }
+    // // bounding box points for player
+    // float xmin1 = new_position.x + entity_manager.getBoundingBox(player_id).xmin;
+    // float xmax1 = new_position.x + entity_manager.getBoundingBox(player_id).xmax;
+    // float ymin1 = new_position.y + entity_manager.getBoundingBox(player_id).ymin;
+    // float ymax1 = new_position.y + entity_manager.getBoundingBox(player_id).ymax;
+
+    // // loop through all bounding boxes
+    // for (auto const& [id, box] : entity_manager.getBoundingBoxes()) {
+    //     if (id != player_id) {
+    //         // bounding box points for current entity
+    //         float xmin2 = entity_manager.getSquare(id).position.x + box.xmin;
+    //         float xmax2 = entity_manager.getSquare(id).position.x + box.xmax;
+    //         float ymin2 = entity_manager.getSquare(id).position.y + box.ymin;
+    //         float ymax2 = entity_manager.getSquare(id).position.y + box.ymax;
+
+    //         // if the bounding boxes overlap
+    //         if (isOverlapping1D(xmin1, xmax1, xmin2, xmax2) && isOverlapping1D(ymin1, ymax1, ymin2, ymax2)) {
+    //             glm::vec2 new_collision_center = glm::vec2((xmin1 + xmax1) / 2, (ymin1 + ymax1) / 2);
+    //             glm::vec2 old_collision_center = new_collision_center - direction;
+    //             glm::vec2 tmp_collision_center = glm::vec2((xmin2 + xmax2) / 2, (ymin2 + ymax2) / 2);
+
+    //             // check if collision pair is more horizontal than vertical
+    //             glm::vec2 diff = old_collision_center - tmp_collision_center;
+    //             if (abs(diff.x) > abs(diff.y))
+    //                 direction.x = 0.0f;     // resolve the illegal movement
+    //             else
+    //                 direction.y = 0.0f;
+    //         }
                 
-        }
-    }
+    //     }
+    // }
 
-    entity_manager.getSquare(player_id).position += direction;
+    // entity_manager.getSquare(player_id).position += direction;
 }
 
-void updateDirections(Entity_Manager &entity_manager) {
-    for (auto const& [id, directional] : entity_manager.getDirectionals()) {
-        if (directional.direction == SOUTH)
-            entity_manager.getSquare(id).texture = directional.south_texture;
-        if (directional.direction == WEST)
-            entity_manager.getSquare(id).texture = directional.west_texture;
-        if (directional.direction == EAST)
-            entity_manager.getSquare(id).texture = directional.east_texture;
-        if (directional.direction == NORTH)
-            entity_manager.getSquare(id).texture = directional.north_texture;
-    }
-}
+// void updateDirections(Entity_Manager &entity_manager) {
+
+//     for (auto const& [id, directional] : entity_manager.getDirectionals()) {
+//         if (directional.direction == SOUTH)
+//             entity_manager.getSquare(id).textures = directional.south_textures;
+//         if (directional.direction == WEST)
+//             entity_manager.getSquare(id).textures = directional.west_textures;
+//         if (directional.direction == EAST)
+//             entity_manager.getSquare(id).textures = directional.east_textures;
+//         if (directional.direction == NORTH)
+//             entity_manager.getSquare(id).textures = directional.north_textures;
+//     }
+// }
+
 
 #endif

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <vector>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -14,7 +15,9 @@ struct Square {
     glm::vec2 position = glm::vec2(0.0f, 0.0f);
     glm::vec2 scale = glm::vec2(1.0f, 1.0f);
     float height;
-    unsigned int texture;       //texture id
+    // unsigned int texture;       //texture id
+    std::vector<unsigned int> textures;
+    int texture_index = 0;
 };
 
 enum Directions {
@@ -25,10 +28,14 @@ enum Directions {
 };
 
 struct Directional {
-    unsigned int south_texture;
-    unsigned int west_texture;
-    unsigned int east_texture;
-    unsigned int north_texture;
+    std::vector<unsigned int> south_textures;
+    std::vector<unsigned int> west_textures;
+    std::vector<unsigned int> east_textures;
+    std::vector<unsigned int> north_textures;
+    // unsigned int south_texture;
+    // unsigned int west_texture;
+    // unsigned int east_texture;
+    // unsigned int north_texture;
     int direction = SOUTH;
 };
 
@@ -37,9 +44,15 @@ struct BoundingBox {
     float ymin, ymax;
 };
 
-struct CollisionCircle {
-    float xoffset, yoffset;
-    float radius;
+// struct AnimationCycle {
+//     int length;
+//     int index;
+// };
+
+struct Movement {
+    glm::vec2 velocity = glm::vec2(0.0f, 0.0f);
+    float weight = 100.0f;
+    float friction = 1.0f;
 };
 
 class Entity_Manager {
@@ -52,7 +65,8 @@ private:
     std::map<int, bool> players = {};
     std::map<int, Directional> directionals = {};
     std::map<int, BoundingBox> boundingBoxes = {};
-    std::map<int, CollisionCircle> collisionCircles = {};
+    std::map<int, Movement> movements = {};
+    // std::map<int, AnimationCycle> animationCycle = {};
 
 public:
     Entity_Manager() { }
@@ -67,11 +81,11 @@ public:
         return entity_ids[id];
     }
 
-    //TODO delete and reuse deleted id's
+    //TODO: delete and reuse deleted id's
 
     //// Square ////
-    void setSquare(int id, glm::vec2 pos, float height, unsigned int tex, glm::vec2 scale = glm::vec2(1.0f, 1.0f)) {
-        Square square = {pos, scale, height, tex};
+    void setSquare(int id, glm::vec2 pos, float height, std::vector<unsigned int> textures, glm::vec2 scale = glm::vec2(1.0f, 1.0f)) {
+        Square square = {pos, scale, height, textures, 0};
         squares.emplace(id, square);
     }
 
@@ -109,8 +123,8 @@ public:
     }
 
     //// Directions ////
-    void setDirectional(int id, unsigned int south_texture, unsigned int west_texture , unsigned int east_texture, unsigned int north_texture, int direction) {
-        Directional dir = {south_texture, west_texture, east_texture, north_texture, direction};
+    void setDirectional(int id, std::vector<unsigned int> south_textures, std::vector<unsigned int> west_textures, std::vector<unsigned int> east_textures, std::vector<unsigned int> north_textures, int direction) {
+        Directional dir = {south_textures, west_textures, east_textures, north_textures, direction};
         directionals.emplace(id, dir);
     }
 
@@ -126,7 +140,6 @@ public:
         directionals[id].direction = direction;
     }
 
-
     //// Bounding Boxes ////
     void setBoundingBox(int id, float xmin, float xmax, float ymin, float ymax) {
         BoundingBox box = {xmin, xmax, ymin, ymax};
@@ -141,19 +154,29 @@ public:
         return boundingBoxes;
     }
 
-    //// Collision Circles ////
-    void setCollisionCircle(int id, float xoffset, float yoffset, float radius) {
-        CollisionCircle circle = {xoffset, yoffset, radius};
-        collisionCircles.emplace(id, circle);
+    //// Movement ////
+    void setMovement(int id, glm::vec2 velocity, float weight = 50.0f, float friction = 1.0f) {
+        Movement tmp = {velocity, weight, friction};
+        movements.emplace(id, tmp);
     }
 
-    CollisionCircle &getCollisionCircle(int id) {
-        return collisionCircles[id];
+    Movement &getMovement(int id) {
+        return movements[id];
     }
 
-    std::map<int, CollisionCircle> &getCollisionCircles() {
-        return collisionCircles;
+    std::map<int, Movement> &getMovements() {
+        return movements;
     }
+
+    //// Animation Cycle ////
+    // void setAnimationCycle(int id, int cycle_length, int cycle_index) {
+    //     AnimationCycle cycle = {cycle_length, cycle_index};
+    //     animationCycle.emplace(id, cycle);
+    // }
+
+    // std::map<int, AnimationCycle> &getAnimationCycles() {
+    //     return animationCycle;
+    // }
 };
 
 #endif
