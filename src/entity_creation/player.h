@@ -14,7 +14,7 @@ int create_player(Entity_Manager &entity_manager, glm::vec2 pos) {
     std::vector<unsigned int> textures_player_up = {load_texture_2d("res/player_up.png")};
 
     int player = entity_manager.createEntity();
-    entity_manager.setSquare(player, pos, 0.5f, textures_player, glm::vec2(2.0f, 2.0f));
+    entity_manager.setRenderable(player, pos, 0.5f, textures_player, glm::vec2(2.0f, 2.0f));
     entity_manager.setDirectional(player, textures_player, textures_player_left, textures_player_right, textures_player_up, SOUTH);
     entity_manager.setPlayer(player, true);
     entity_manager.setBoundingBox(player, -8.0f, 8.0f, -16.0f, 0.0f);

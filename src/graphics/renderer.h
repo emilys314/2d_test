@@ -20,16 +20,15 @@
 class Renderer {
 private:
     GLFWwindow *glfwwindow;
-    Shader shader_basic;
+    Shader shader;
     Model_Square square;
-    unsigned int texture;
 
 public:
     Renderer() {}
 
     Renderer(Window &window) {
-        // build and compile our shader zprogram
-        shader_basic = Shader("src/graphics/shader.vs", "src/graphics/shader.fs");
+        // build and compile our shader program
+        shader = Shader("src/graphics/basic.vs", "src/graphics/basic.fs");
 
         // load model(s)
         square = Model_Square();
@@ -44,10 +43,10 @@ public:
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        float scale = 4.0f;     // biger number means zoomed in
+        float scale = 4.0f;     // bigger number means zoomed in
 
-        shader_basic.use();
-        for (auto const& [id, model] : entity_manager.getSquares()) {
+        shader.use();
+        for (auto const& [id, model] : entity_manager.getRenderables()) {
             // bind Texture
             glBindTexture(GL_TEXTURE_2D, model.textures[model.texture_index]);
 
@@ -56,9 +55,10 @@ public:
             mat_model = glm::scale(mat_model, glm::vec3(model.scale, 1.0f));
             glm::mat4 mat_view = glm::translate(entity_manager.getCameraView(camera_id), glm::vec3(window.getFrameWidth() / (scale*2), window.getFrameHeight() / (scale*2), 0.0f));
             glm::mat4 mat_projection = glm::ortho(0.0f, (float)window.getFrameWidth() / scale, 0.0f, window.getFrameHeight() / scale, 0.1f, 100.0f);
+
             glm::mat4 mat_mvp = mat_projection * mat_view * mat_model;
-            int uni_mvp = glGetUniformLocation(shader_basic.ID, "uni_mvp"); 
-            glUniformMatrix4fv(uni_mvp, 1, GL_FALSE, glm::value_ptr(mat_mvp));
+
+            shader.setMat4("uni_mvp", mat_mvp);
 
             // draw
             glBindVertexArray(square.getVAO());

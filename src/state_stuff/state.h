@@ -40,14 +40,14 @@ public:
         // BEAR
         std::vector<unsigned int> textures_bear = { load_texture_2d("res/bear.png") };
         int bear = entity_manager.createEntity();
-        entity_manager.setSquare(bear, glm::vec2(0.0f, 32.0f), 0.5f, textures_bear, glm::vec2(2.0f, 2.0f));
+        entity_manager.setRenderable(bear, glm::vec2(0.0f, 32.0f), 0.5f, textures_bear, glm::vec2(2.0f, 2.0f));
 
         // GRASS FLOOR
         std::vector<unsigned int> textures_grass = { load_texture_2d("res/grass_16.png") };
         for (int x = -20; x <= 20; x++) {
             for (int y = -20; y <= 20; y++) {
                 int id = entity_manager.createEntity();
-                entity_manager.setSquare(id, glm::vec2(x * 16, y * 16), 0.0f, textures_grass);
+                entity_manager.setRenderable(id, glm::vec2(x * 16, y * 16), 0.0f, textures_grass);
             }
         }
 

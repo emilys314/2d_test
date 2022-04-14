@@ -39,7 +39,7 @@ void processPlayerInput(Timer timer, Inputs &inputs, Entity_Manager &entity_mana
     }
 
     if (!inputs.getKey(GLFW_KEY_W) && !inputs.getKey(GLFW_KEY_S) && !(inputs.getKey(GLFW_KEY_A) >= GLFW_PRESS) && !(inputs.getKey(GLFW_KEY_D) >= GLFW_PRESS)) {
-        entity_manager.getSquare(player_id).texture_index = 0;
+        entity_manager.getRenderable(player_id).texture_index = 0;
     }
 
     if (direction.x != 0. && direction.y != 0)

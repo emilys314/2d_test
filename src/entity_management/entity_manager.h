@@ -11,7 +11,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-struct Square {
+struct Renderable {
     glm::vec2 position = glm::vec2(0.0f, 0.0f);
     glm::vec2 scale = glm::vec2(1.0f, 1.0f);
     float height;
@@ -40,24 +40,18 @@ struct BoundingBox {
     float ymin, ymax;
 };
 
-// struct AnimationCycle {
-//     int length;
-//     int index;
-// };
-
 struct Movement {
     glm::vec2 velocity = glm::vec2(0.0f, 0.0f);
     float weight = 100.0f;
     float friction = 1.0f;
 };
 
-// Yo
 class Entity_Manager {
 private:
     int next_id = 0;
 
     std::map<int, std::string> entity_ids = {};
-    std::map<int, Square> squares = {};
+    std::map<int, Renderable> renderables = {};
     std::map<int, glm::vec3> cameras = {};
     std::map<int, bool> players = {};
     std::map<int, Directional> directionals = {};
@@ -81,17 +75,17 @@ public:
     //TODO: delete and reuse deleted id's
 
     //// Square ////
-    void setSquare(int id, glm::vec2 pos, float height, std::vector<unsigned int> textures, glm::vec2 scale = glm::vec2(1.0f, 1.0f)) {
-        Square square = {pos, scale, height, textures, 0};
-        squares.emplace(id, square);
+    void setRenderable(int id, glm::vec2 pos, float height, std::vector<unsigned int> textures, glm::vec2 scale = glm::vec2(1.0f, 1.0f)) {
+        Renderable square = {pos, scale, height, textures, 0};
+        renderables.emplace(id, square);
     }
 
-    Square &getSquare(int id) {
-        return squares[id];
+    Renderable &getRenderable(int id) {
+        return renderables[id];
     }
 
-    std::map<int, Square> &getSquares() {
-        return squares;
+    std::map<int, Renderable> &getRenderables() {
+        return renderables;
     }
 
     //// Cameras ////
@@ -111,6 +105,7 @@ public:
         return glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
     }
 
+    //// Player ////
     void setPlayer(int id, bool active) {
         players.emplace(id, active);
     }
