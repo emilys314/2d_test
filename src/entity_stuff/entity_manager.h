@@ -32,10 +32,6 @@ struct Directional {
     std::vector<unsigned int> west_textures;
     std::vector<unsigned int> east_textures;
     std::vector<unsigned int> north_textures;
-    // unsigned int south_texture;
-    // unsigned int west_texture;
-    // unsigned int east_texture;
-    // unsigned int north_texture;
     int direction = SOUTH;
 };
 

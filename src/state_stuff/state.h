@@ -6,10 +6,11 @@
 #include <map>
 #include <vector>
 #include "../entity_stuff/entity_manager.h"
+#include "../entity_stuff/rock.h"
 #include "../graphics/renderer.h"
 #include "../logic_stuff/actions.h"
 #include "../logic_stuff/movement_collision.h"
-#include "../logic_stuff/player_movement.h"
+#include "../logic_stuff/player_input.h"
 #include "../logic_stuff/timer.h"
 #include "../logic_stuff/update_camera.h"
 #include "../window_stuff/inputs.h"
@@ -50,21 +51,15 @@ public:
 
         // GRASS FLOOR
         std::vector<unsigned int> textures_grass = {load_texture_2d("res/grass_16.png")};
-        for (int x = -6; x <=6; x++) {
-            for (int y = -6; y <=6; y++) {
+        for (int x = -20; x <=20; x++) {
+            for (int y = -20; y <=20; y++) {
                 int id = entity_manager.createEntity();
                 entity_manager.setSquare(id, glm::vec2(x * 16, y * 16), 0.0f, textures_grass);
             }
         }
 
-        // ROCKS
-        std::vector<unsigned int> textures_rock = {load_texture_2d("res/rock.png")};
-        int rock = entity_manager.createEntity();
-        entity_manager.setSquare(rock, glm::vec2(2.0f * 16, 3.0f * 16), 0.4f, textures_rock);
-        entity_manager.setBoundingBox(rock, -7.0f, 7.0f, -7.0f, 7.0f);
-        int rock2 = entity_manager.createEntity();
-        entity_manager.setSquare(rock2, glm::vec2(-2.0f * 16, 2.0f * 16), 0.4f, textures_rock);
-        entity_manager.setBoundingBox(rock2, -7.0f, 7.0f, -7.0f, 7.0f);
+        int rock1 = create_rock(entity_manager, glm::vec2(1.0f, 3.0f));
+        int rock2 = create_rock(entity_manager, glm::vec2(-3.0f, -3.0f));
 
         main_cam = entity_manager.createEntity("camera");
         entity_manager.setCamera(main_cam, glm::vec3(0.0f, 0.0f, 1.0f));
@@ -73,7 +68,7 @@ public:
 
     void do_stuff(Window &window, Inputs &inputs) {
         timer.setTime();
-        processPlayerMovement(timer, inputs, entity_manager, player);
+        processPlayerInput(timer, inputs, entity_manager, player);
         processMovementCollisions(timer, inputs, entity_manager, player);
         updateCameraPosition(entity_manager, main_cam, player);
         updateDirections(entity_manager);

@@ -4,6 +4,13 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <stdio.h>
+#include <queue>
+
+struct Event {
+    int eventid;
+    float timestamp;
+    bool ready;
+};
 
 class Timer {
 private:
@@ -18,6 +25,9 @@ private:
 
     bool quarter_second = false;
     float next_quarter = 0.0f;
+
+
+    std::queue<float> events = {};
 
 public:
     Timer() {
@@ -51,6 +61,8 @@ public:
             std::cout << "quarter\n";
         }
     }
+
+
     
     float getDeltaTime() {
         return deltaTime;

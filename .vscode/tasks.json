@@ -14,16 +14,20 @@
 				"${workspaceFolder}/src/glad.c",
 				"-lglfw3dll",
 				"-o",
-				"${workspaceFolder}/myprogram.exe"
+				"${workspaceFolder}/yeet.exe"
 			],
 			"options": {
-				"cwd": "${fileDirname}"
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [
 				"$gcc"
 			],
-			"group": "build",
-			"detail": "compiler: C:\\msys64\\mingw64\\bin\\g++.exe"
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+			// ,
+			// "detail": "compiler: C:\\msys64\\mingw64\\bin\\g++.exe"
 		}
 	]
 }
