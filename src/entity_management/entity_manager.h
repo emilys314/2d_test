@@ -59,6 +59,7 @@ class Entity_Manager {
 private:
     int next_id = 1;
 
+public:
     std::map<int, Entity> entity_ids = {};
     std::map<int, Renderable> renderables = {};
     std::map<int, glm::vec3> cameras = {};
@@ -66,9 +67,7 @@ private:
     std::map<int, Directional> directionals = {};
     std::map<int, BoundingBox> boundingBoxes = {};
     std::map<int, Movement> movements = {};
-    // std::map<int, AnimationCycle> animationCycle = {};
 
-public:
     Entity_Manager() { }
 
     //// Entity ////
@@ -94,10 +93,6 @@ public:
 
     Renderable &getRenderable(int id) {
         return renderables[id];
-    }
-
-    std::map<int, Renderable> &getRenderables() {
-        return renderables;
     }
 
     //// Cameras ////
@@ -136,10 +131,6 @@ public:
         return directionals[id];
     }
 
-    std::map<int, Directional> &getDirectionals() {
-        return directionals;
-    }
-
     void setDirection(int id, int direction) {
         directionals[id].direction = direction;
     }
@@ -154,10 +145,6 @@ public:
         return boundingBoxes[id];
     }
 
-    std::map<int, BoundingBox> &getBoundingBoxes() {
-        return boundingBoxes;
-    }
-
     //// Movement ////
     void setMovement(int id, glm::vec2 velocity, float weight = 50.0f, float friction = 1.0f) {
         Movement tmp = {velocity, weight, friction};
@@ -167,20 +154,6 @@ public:
     Movement &getMovement(int id) {
         return movements[id];
     }
-
-    std::map<int, Movement> &getMovements() {
-        return movements;
-    }
-
-    //// Animation Cycle ////
-    // void setAnimationCycle(int id, int cycle_length, int cycle_index) {
-    //     AnimationCycle cycle = {cycle_length, cycle_index};
-    //     animationCycle.emplace(id, cycle);
-    // }
-
-    // std::map<int, AnimationCycle> &getAnimationCycles() {
-    //     return animationCycle;
-    // }
 };
 
 #endif

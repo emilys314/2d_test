@@ -28,7 +28,7 @@ void processMovementCollisions(Timer timer, Inputs &inputs, Entity_Manager &enti
     float ymax1 = new_position.y + entity_manager.getBoundingBox(player_id).ymax;
 
     // loop through all bounding boxes
-    for (auto const &[id, box] : entity_manager.getBoundingBoxes())
+    for (auto const &[id, box] : entity_manager.boundingBoxes)
     {
         if (id != player_id)
         {
@@ -59,7 +59,7 @@ void processMovementCollisions(Timer timer, Inputs &inputs, Entity_Manager &enti
 }
 
 void updateDirections(Entity_Manager &entity_manager) {
-    for (auto const &[id, directional] : entity_manager.getDirectionals())
+    for (auto const &[id, directional] : entity_manager.directionals)
     {
         if (directional.direction == SOUTH)
             entity_manager.getRenderable(id).textures = directional.south_textures;

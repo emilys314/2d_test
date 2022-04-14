@@ -46,7 +46,7 @@ public:
         float scale = 4.0f;     // bigger number means zoomed in
 
         shader.use();
-        for (auto& [id, model] : entity_manager.getRenderables()) {
+        for (auto& [id, model] : entity_manager.renderables) {
             // bind Texture
             glBindTexture(GL_TEXTURE_2D, model.textures[model.texture_index].getId());
 
