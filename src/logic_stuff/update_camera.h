@@ -8,7 +8,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "../entity_stuff/entity_manager.h"
+#include "../entity_management/entity_manager.h"
 #include "../window_stuff/inputs.h"
 
 void updateCameraPosition(Entity_Manager &entity_manager, int camera_id, int player_id) {

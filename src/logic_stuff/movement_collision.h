@@ -9,7 +9,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "timer.h"
-#include "../entity_stuff/entity_manager.h"
+#include "../entity_management/entity_manager.h"
 #include "../window_stuff/inputs.h"
 
 bool isOverlapping1D(float xmin1, float xmax1, float xmin2, float xmax2) {

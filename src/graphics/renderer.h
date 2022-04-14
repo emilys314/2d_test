@@ -13,7 +13,7 @@
 #include "shader.h"
 #include "../res_loader/model_square.h"
 #include "../res_loader/texture_loader.h"
-#include "../entity_stuff/entity_manager.h"
+#include "../entity_management/entity_manager.h"
 #include "../window_stuff/window.h"
 
 

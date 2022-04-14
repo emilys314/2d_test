@@ -9,7 +9,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "timer.h"
-#include "../entity_stuff/entity_manager.h"
+#include "../entity_management/entity_manager.h"
 #include "../window_stuff/inputs.h"
 
 void processPlayerInput(Timer timer, Inputs &inputs, Entity_Manager &entity_manager, int player_id) {

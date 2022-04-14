@@ -5,8 +5,8 @@
 #include <string>
 #include <map>
 #include <vector>
-#include "../entity_stuff/entity_manager.h"
-#include "../entity_stuff/rock.h"
+#include "../entity_management/entity_manager.h"
+#include "../entity_management/rock.h"
 #include "../graphics/renderer.h"
 #include "../logic_stuff/actions.h"
 #include "../logic_stuff/movement_collision.h"
