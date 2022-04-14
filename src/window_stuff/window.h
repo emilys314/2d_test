@@ -11,6 +11,9 @@ class Window {
 private:
     int current_width = 800;
     int current_height = 600;
+
+    double lastTime = glfwGetTime();
+    int frame_count = 0;
     
     GLFWwindow * glfwwindow;
 
@@ -55,6 +58,18 @@ public:
         //// get version info ////
         printf("Renderer: %s\n", glGetString(GL_RENDERER));
         printf("OpenGL version supported %s\n", glGetString(GL_VERSION));
+    }
+
+    void performance_counter() {
+        double currentTime = glfwGetTime();
+        frame_count++;
+        if (currentTime - lastTime >= 1.0){ // If last printf() was more than 1 sec ago
+            std::string title = std::to_string(frame_count) + "fps";
+            glfwSetWindowTitle(this->getGlfwWindow(), title.c_str());
+
+            frame_count = 0;
+            lastTime = currentTime;
+        }
     }
 
     GLFWwindow * getGlfwWindow() {
