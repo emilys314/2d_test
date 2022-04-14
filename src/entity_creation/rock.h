@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-#include "entity_manager.h"
+#include "../entity_management/entity_manager.h"
 #include "../res_loader/texture_loader.h"
 
 int create_rock(Entity_Manager &entity_manager, glm::vec2 pos) {
