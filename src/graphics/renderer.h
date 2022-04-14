@@ -46,9 +46,9 @@ public:
         float scale = 4.0f;     // bigger number means zoomed in
 
         shader.use();
-        for (auto const& [id, model] : entity_manager.getRenderables()) {
+        for (auto& [id, model] : entity_manager.getRenderables()) {
             // bind Texture
-            glBindTexture(GL_TEXTURE_2D, model.textures[model.texture_index]);
+            glBindTexture(GL_TEXTURE_2D, model.textures[model.texture_index].getId());
 
             // model
             glm::mat4 mat_model = glm::translate(glm::mat4(1.0f), glm::vec3(model.position, model.height));

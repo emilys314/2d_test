@@ -6,10 +6,14 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-static unsigned int load_texture_2d(char const *filename) {
-    unsigned int texture;
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
+#include "../graphics/texture.h"
+
+// TODO: cache texture filenames to hashmap to save loading
+
+Texture load_texture_2d(char const *filename) {
+    unsigned int id;
+    glGenTextures(1, &id);
+    glBindTexture(GL_TEXTURE_2D, id); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
     // set the texture wrapping parameters
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -27,6 +31,8 @@ static unsigned int load_texture_2d(char const *filename) {
         std::cout << "Failed to load texture | " << filename << std::endl;
     }
     stbi_image_free(data);
+
+    Texture texture = Texture(id, width, height);
 
     return texture;
 }

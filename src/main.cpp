@@ -1,17 +1,20 @@
 #include <iostream>
+#include <string>
+#include <cstring>
 
 #include "state_stuff/state.h"
 #include "window_stuff/window.h"
 #include "window_stuff/inputs.h"
 
-void performance_counter(Window window, double lastTime, int frame_count) {
+void performance_counter(Window& window, double& lastTime, int& frame_count) {
     double currentTime = glfwGetTime();
-        frame_count++;
-        if ( currentTime - lastTime >= 1.0 ){ // If last prinf() was more than 1 sec ago
-            // printf and reset timer
-            printf("%f ms/frame\n", 1000.0/double(frame_count));
-            frame_count = 0;
-            lastTime += 1.0;
+    frame_count++;
+    if (currentTime - lastTime >= 1.0){ // If last printf() was more than 1 sec ago
+        std::string title = std::to_string(frame_count) + "fps";
+        glfwSetWindowTitle(window.getGlfwWindow(), title.c_str());
+
+        frame_count = 0;
+        lastTime = currentTime;
     }
 }
 

@@ -11,13 +11,22 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "../graphics/texture.h"
+
+struct Entity {
+    std::string name = "";
+    // int parent = 0;
+    // std::vector<int> children;
+};
+
 struct Renderable {
     glm::vec2 position = glm::vec2(0.0f, 0.0f);
     glm::vec2 scale = glm::vec2(1.0f, 1.0f);
     float height;
     // unsigned int texture;       //texture id
-    std::vector<unsigned int> textures;
+    std::vector<Texture> textures;
     int texture_index = 0;
+    int parent = 0;
 };
 
 enum Directions {
@@ -28,10 +37,10 @@ enum Directions {
 };
 
 struct Directional {
-    std::vector<unsigned int> south_textures;
-    std::vector<unsigned int> west_textures;
-    std::vector<unsigned int> east_textures;
-    std::vector<unsigned int> north_textures;
+    std::vector<Texture> south_textures;
+    std::vector<Texture> west_textures;
+    std::vector<Texture> east_textures;
+    std::vector<Texture> north_textures;
     int direction = SOUTH;
 };
 
@@ -48,9 +57,9 @@ struct Movement {
 
 class Entity_Manager {
 private:
-    int next_id = 0;
+    int next_id = 1;
 
-    std::map<int, std::string> entity_ids = {};
+    std::map<int, Entity> entity_ids = {};
     std::map<int, Renderable> renderables = {};
     std::map<int, glm::vec3> cameras = {};
     std::map<int, bool> players = {};
@@ -64,20 +73,23 @@ public:
 
     //// Entity ////
     int createEntity(std::string name = "") {
-        entity_ids.emplace(next_id, name);
+        Entity entity = {name};
+        entity_ids.emplace(next_id, entity);
         return next_id++;
     }
 
-    std::string getEntity(int id) {
+    Entity getEntity(int id) {
         return entity_ids[id];
     }
 
     //TODO: delete and reuse deleted id's
 
     //// Square ////
-    void setRenderable(int id, glm::vec2 pos, float height, std::vector<unsigned int> textures, glm::vec2 scale = glm::vec2(1.0f, 1.0f)) {
-        Renderable square = {pos, scale, height, textures, 0};
+    Renderable setRenderable(int id, glm::vec2 pos, float height, std::vector<Texture> textures) {
+        glm::vec2 scale = glm::vec2(textures[0].getWidth(), textures[0].getHeight());
+        Renderable square = {pos, scale, height, textures, 0, 0};
         renderables.emplace(id, square);
+        return square;
     }
 
     Renderable &getRenderable(int id) {
@@ -115,7 +127,7 @@ public:
     }
 
     //// Directions ////
-    void setDirectional(int id, std::vector<unsigned int> south_textures, std::vector<unsigned int> west_textures, std::vector<unsigned int> east_textures, std::vector<unsigned int> north_textures, int direction) {
+    void setDirectional(int id, std::vector<Texture> south_textures, std::vector<Texture> west_textures, std::vector<Texture> east_textures, std::vector<Texture> north_textures, int direction) {
         Directional dir = {south_textures, west_textures, east_textures, north_textures, direction};
         directionals.emplace(id, dir);
     }
