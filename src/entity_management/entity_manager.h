@@ -51,6 +51,7 @@ struct Movement {
     float friction = 1.0f;
 };
 
+// Yo
 class Entity_Manager {
 private:
     int next_id = 0;
