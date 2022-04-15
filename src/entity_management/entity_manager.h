@@ -84,11 +84,11 @@ public:
     //TODO: delete and reuse deleted id's
 
     //// Square ////
-    Renderable setRenderable(int id, glm::vec2 pos, float height, std::vector<Texture> textures) {
+    Renderable& setRenderable(int id, glm::vec2 pos, float height, std::vector<Texture> textures, int parent = 0) {
         glm::vec2 scale = glm::vec2(textures[0].getWidth(), textures[0].getHeight());
-        Renderable square = {pos, scale, height, textures, 0, 0};
+        Renderable square = {pos, scale, height, textures, 0, parent};
         renderables.emplace(id, square);
-        return square;
+        return renderables[id];
     }
 
     Renderable &getRenderable(int id) {

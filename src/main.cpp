@@ -15,7 +15,7 @@ int main() {
 
     while (!window.shouldClose()) {
         window.performance_counter();
-        state.do_stuff(window, inputs);
+        state.step(window, inputs);
     }
 
     glfwTerminate();

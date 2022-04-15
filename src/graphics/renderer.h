@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <iostream>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -50,8 +51,15 @@ public:
             // bind Texture
             glBindTexture(GL_TEXTURE_2D, model.textures[model.texture_index].getId());
 
+            glm::vec2 parent_pos = glm::vec2(0.0f, 0.0f);
+            if (model.parent > 0) {
+                parent_pos = entity_manager.renderables[model.parent].position;
+                printf("%f %f", parent_pos.x, parent_pos.y);
+            }
+            // printf("%f %f", parent_pos.x, parent_pos.y);
+
             // model
-            glm::mat4 mat_model = glm::translate(glm::mat4(1.0f), glm::vec3(model.position, model.height));
+            glm::mat4 mat_model = glm::translate(glm::mat4(1.0f), glm::vec3(model.position + parent_pos, model.height));
             mat_model = glm::scale(mat_model, glm::vec3(model.scale, 1.0f));
             glm::mat4 mat_view = glm::translate(entity_manager.getCameraView(camera_id), glm::vec3(window.getFrameWidth() / (scale*2), window.getFrameHeight() / (scale*2), 0.0f));
             glm::mat4 mat_projection = glm::ortho(0.0f, (float)window.getFrameWidth() / scale, 0.0f, window.getFrameHeight() / scale, 0.1f, 100.0f);

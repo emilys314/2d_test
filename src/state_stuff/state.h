@@ -39,7 +39,7 @@ public:
 
         std::vector<Texture> sword_textures = { load_texture_2d("res/sword.png") };
         int sword = entity_manager.createEntity();
-        entity_manager.setRenderable(sword, glm::vec2(0.0f, 0.0f), 0.5f, sword_textures);
+        entity_manager.setRenderable(sword, glm::vec2(8.0f, 0.0f), 0.5f, sword_textures, player);
 
         // BEAR
         std::vector<Texture> bear_textures = { load_texture_2d("res/bear.png") };
@@ -63,13 +63,13 @@ public:
 
     }
 
-    void do_stuff(Window& window, Inputs& inputs) {
+    void step(Window& window, Inputs& inputs) {
         timer.setTime();
         processPlayerInput(timer, inputs, entity_manager, player);
         processMovementCollisions(timer, inputs, entity_manager, player);
         updateCameraPosition(entity_manager, main_cam, player);
         updateDirections(entity_manager);
-        actions.processCamera(window.getGlfwWindow(), inputs, entity_manager.getCamera(main_cam));
+        actions.processCamera(window, inputs, entity_manager.getCamera(main_cam));
         renderer.render(window, main_cam, entity_manager);
     }
 

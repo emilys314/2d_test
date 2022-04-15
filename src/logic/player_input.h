@@ -33,9 +33,6 @@ void processPlayerInput(Timer timer, Inputs &inputs, Entity_Manager &entity_mana
     if (inputs.getKey(GLFW_KEY_D) >= GLFW_PRESS) {
         direction += glm::vec2(speed, 0.0f);
         entity_manager.getDirectional(player_id).direction = EAST;
-        // if (timer.getQuarterSecond()) {
-        //     entity_manager.getSquare(player_id).texture_index = (entity_manager.getSquare(player_id).texture_index + 1) % 4;
-        // }
     }
 
     if (!inputs.getKey(GLFW_KEY_W) && !inputs.getKey(GLFW_KEY_S) && !(inputs.getKey(GLFW_KEY_A) >= GLFW_PRESS) && !(inputs.getKey(GLFW_KEY_D) >= GLFW_PRESS)) {

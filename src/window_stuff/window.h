@@ -15,9 +15,9 @@ private:
     double lastTime = glfwGetTime();
     int frame_count = 0;
     
+public:
     GLFWwindow * glfwwindow;
 
-public:
     Window() {
         glfwInit();
         // glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
