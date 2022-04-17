@@ -54,9 +54,7 @@ public:
             glm::vec2 parent_pos = glm::vec2(0.0f, 0.0f);
             if (model.parent > 0) {
                 parent_pos = entity_manager.renderables[model.parent].position;
-                printf("%f %f", parent_pos.x, parent_pos.y);
             }
-            // printf("%f %f", parent_pos.x, parent_pos.y);
 
             // model
             glm::mat4 mat_model = glm::translate(glm::mat4(1.0f), glm::vec3(model.position + parent_pos, model.height));

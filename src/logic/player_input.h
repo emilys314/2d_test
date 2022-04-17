@@ -15,7 +15,7 @@
 void processPlayerInput(Timer timer, Inputs &inputs, Entity_Manager &entity_manager, int player_id) {
     float speed = 64.0f * timer.getDeltaTime();
 
-    // std::cout << "speed: " << speed << "\n";
+
 
     glm::vec2 direction = glm::vec2(0.0f, 0.0f);
     if (inputs.getKey(GLFW_KEY_W) >= GLFW_PRESS) {
@@ -39,9 +39,9 @@ void processPlayerInput(Timer timer, Inputs &inputs, Entity_Manager &entity_mana
         entity_manager.getRenderable(player_id).texture_index = 0;
     }
 
-    if (direction.x != 0. && direction.y != 0)
+    if (direction.x != 0. && direction.y != 0) {
         direction *= glm::vec2(0.7, 0.7f);
-
+    }
 
     entity_manager.getMovement(player_id).velocity = direction;
 }

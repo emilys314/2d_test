@@ -5,6 +5,8 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <functional>
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -15,18 +17,15 @@
 
 struct Entity {
     std::string name = "";
-    // int parent = 0;
-    // std::vector<int> children;
 };
 
 struct Renderable {
     glm::vec2 position = glm::vec2(0.0f, 0.0f);
     glm::vec2 scale = glm::vec2(1.0f, 1.0f);
     float height;
-    // unsigned int texture;       //texture id
     std::vector<Texture> textures;
     int texture_index = 0;
-    int parent = 0;
+    int parent = -1;
 };
 
 enum Directions {
@@ -55,18 +54,26 @@ struct Movement {
     float friction = 1.0f;
 };
 
+struct Attack {
+    std::vector<Texture> textures;
+    // const std::function<void(Entity_Manager)> func;
+};
+
 class Entity_Manager {
 private:
     int next_id = 1;
 
 public:
+    int player = -1;
+
     std::map<int, Entity> entity_ids = {};
     std::map<int, Renderable> renderables = {};
     std::map<int, glm::vec3> cameras = {};
-    std::map<int, bool> players = {};
     std::map<int, Directional> directionals = {};
     std::map<int, BoundingBox> boundingBoxes = {};
     std::map<int, Movement> movements = {};
+    std::map<int, Attack> attacks = {};
+    std::map<int, double> expirations = {};     // TODO chagne to more efficient data structure
 
     Entity_Manager() { }
 
@@ -74,11 +81,25 @@ public:
     int createEntity(std::string name = "") {
         Entity entity = {name};
         entity_ids.emplace(next_id, entity);
+        std::cout << next_id << " " << name << "\n";
         return next_id++;
     }
 
     Entity getEntity(int id) {
         return entity_ids[id];
+    }
+
+    void deleteEntity(int id) {
+        entity_ids.erase(id);
+        renderables.erase(id);
+        cameras.erase(id);
+        directionals.erase(id);
+        boundingBoxes.erase(id);
+        movements.erase(id);
+        attacks.erase(id);
+        expirations.erase(id);
+
+        printf("Erased %i\n", id);
     }
 
     //TODO: delete and reuse deleted id's
@@ -110,15 +131,6 @@ public:
         glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
         return glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-    }
-
-    //// Player ////
-    void setPlayer(int id, bool active) {
-        players.emplace(id, active);
-    }
-
-    bool &getPlayer(int id) {
-        return players[id];
     }
 
     //// Directions ////
@@ -153,6 +165,26 @@ public:
 
     Movement &getMovement(int id) {
         return movements[id];
+    }
+
+    //// Attacks ////
+    void setAttack(int id, std::vector<Texture> texture) {
+        Attack attack = {texture};
+        attacks.emplace(id, attack);
+    }
+
+    Attack& getAttack(int id) {
+        return attacks[id];
+    }
+
+    //// Expiration ////
+    void setExpiration(int id, double duration) {
+        double expiration = glfwGetTime() + duration;
+        expirations.emplace(id, expiration);
+    }
+
+    double getExpiration(int id) {
+        return expirations[id];
     }
 };
 

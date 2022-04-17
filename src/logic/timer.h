@@ -6,18 +6,11 @@
 #include <stdio.h>
 #include <queue>
 
-struct Event {
-    int eventid;
-    float timestamp;
-    bool ready;
-};
-
 class Timer {
 private:
-    float deltaTime = 0.0f; // Time between current frame and last frame
-    float lastFrame = 0.0f; // Time of last frame
-
-    std::queue<float> events = {};
+    float time_current = 0.0f;
+    float time_delta = 0.0f; // Time between current frame and last frame
+    float time_last = 0.0f; // Time of last frame
 
 public:
     Timer() {
@@ -25,17 +18,17 @@ public:
     }
 
     void setTime() {
-        float currentFrame = glfwGetTime();
-        deltaTime = currentFrame - lastFrame;
-        lastFrame = currentFrame;
+        time_current = glfwGetTime();
+        time_delta = time_current - time_last;
+        time_last = time_current;
     }
 
     float getDeltaTime() {
-        return deltaTime;
+        return time_delta;
     }
 
     float getTime() {
-        return glfwGetTime();
+        return time_current;
     }
 };
 

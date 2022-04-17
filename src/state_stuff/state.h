@@ -11,6 +11,8 @@
 #include "../entity_management/entity_manager.h"
 #include "../graphics/renderer.h"
 #include "../logic/actions.h"
+#include "../logic/attack.h"
+#include "../logic/expirable.h"
 #include "../logic/movement_collision.h"
 #include "../logic/player_input.h"
 #include "../logic/timer.h"
@@ -22,7 +24,6 @@ class State {
 private:
     Renderer renderer;
     Timer timer;
-    Actions actions;
 
     Entity_Manager entity_manager = Entity_Manager();
     int main_cam;
@@ -30,27 +31,24 @@ private:
 
 public:
     State(Window window) {
+        std::cout << "Created State\n";
         renderer = Renderer(window);
         timer = Timer();
-        actions = Actions();
 
         // PLAYER
         player = create_player(entity_manager, glm::vec2(0.0f, 0.0f));
 
-        std::vector<Texture> sword_textures = { load_texture_2d("res/sword.png") };
-        int sword = entity_manager.createEntity();
-        entity_manager.setRenderable(sword, glm::vec2(8.0f, 0.0f), 0.5f, sword_textures, player);
 
         // BEAR
         std::vector<Texture> bear_textures = { load_texture_2d("res/bear.png") };
-        int bear = entity_manager.createEntity();
+        int bear = entity_manager.createEntity("bear");
         entity_manager.setRenderable(bear, glm::vec2(0.0f, 32.0f), 0.5f, bear_textures);
 
         // GRASS FLOOR
         std::vector<Texture> textures_grass = { load_texture_2d("res/grass_16.png") };
         for (int x = -20; x <= 20; x++) {
             for (int y = -20; y <= 20; y++) {
-                int id = entity_manager.createEntity();
+                int id = entity_manager.createEntity("grass");
                 entity_manager.setRenderable(id, glm::vec2(x * 16, y * 16), 0.0f, textures_grass);
             }
         }
@@ -65,12 +63,16 @@ public:
 
     void step(Window& window, Inputs& inputs) {
         timer.setTime();
+        proceessExpirables(entity_manager, timer);
         processPlayerInput(timer, inputs, entity_manager, player);
         processMovementCollisions(timer, inputs, entity_manager, player);
         updateCameraPosition(entity_manager, main_cam, player);
         updateDirections(entity_manager);
-        actions.processCamera(window, inputs, entity_manager.getCamera(main_cam));
+        proceessAttacks(entity_manager, inputs);
         renderer.render(window, main_cam, entity_manager);
+
+        if (inputs.getKey(GLFW_KEY_ESCAPE) >= GLFW_PRESS)
+            glfwSetWindowShouldClose(window.glfwwindow, true);
     }
 
     Entity_Manager& getEntities() {
