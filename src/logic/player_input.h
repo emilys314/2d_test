@@ -15,8 +15,6 @@
 void processPlayerInput(Timer timer, Inputs &inputs, Entity_Manager &entity_manager, int player_id) {
     float speed = 64.0f * timer.getDeltaTime();
 
-
-
     glm::vec2 direction = glm::vec2(0.0f, 0.0f);
     if (inputs.getKey(GLFW_KEY_W) >= GLFW_PRESS) {
         direction += glm::vec2(0.0f, speed);

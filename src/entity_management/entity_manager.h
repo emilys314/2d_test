@@ -81,7 +81,6 @@ public:
     int createEntity(std::string name = "") {
         Entity entity = {name};
         entity_ids.emplace(next_id, entity);
-        std::cout << next_id << " " << name << "\n";
         return next_id++;
     }
 
