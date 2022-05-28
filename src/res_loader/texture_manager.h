@@ -3,6 +3,7 @@
 
 #include <unordered_map>
 #include <iostream>
+#include <vector>
 
 #include <glad/glad.h>
 #define STB_IMAGE_IMPLEMENTATION
@@ -42,10 +43,6 @@ class Texture_Manager {
     }
 
 public:
-    Texture_Manager() {
-
-    }
-
     Texture get(char const* filename) {
         try {
             Texture texture = textures.at(filename);
@@ -56,6 +53,16 @@ public:
             textures[filename] = texture;
             return texture;
         }
+    }
+
+    std::vector<Texture> get(std::vector<const char*> texture_paths) {
+        std::vector<Texture> textures = {};
+
+        for (auto& path : texture_paths) {
+            textures.push_back(get(path));
+        }
+
+        return textures;
     }
 };
 

@@ -111,7 +111,7 @@ public:
 
     //// Square ////
     Renderable& setRenderable(int id, glm::vec2 pos, float height, std::vector<const char*> texture_paths, std::string model, int parent = 0) {
-        std::vector<Texture> textures = { texture_manager.get(texture_paths[0]) };
+        std::vector<Texture> textures = texture_manager.get(texture_paths);
         glm::vec2 scale = glm::vec2(textures[0].width, textures[0].height);
         Renderable square = { pos, scale, height, textures, 0, model_manager.get(model), parent };
         renderables.emplace(id, square);
@@ -141,8 +141,7 @@ public:
 
     //// Directions ////
     void setDirectional(int id, std::vector<const char*> south_textures, std::vector<const char*> west_textures, std::vector<const char*> east_textures, std::vector<const char*> north_textures, int direction) {
-        // std::vector<Texture> textures = { load_texture_2d(texture_paths[0]) };
-        Directional dir = { {texture_manager.get(south_textures[0])}, {texture_manager.get(west_textures[0])}, {texture_manager.get(east_textures[0])}, {texture_manager.get(north_textures[0])}, direction };
+        Directional dir = { texture_manager.get(south_textures), texture_manager.get(west_textures), texture_manager.get(east_textures), texture_manager.get(north_textures), direction };
         directionals.emplace(id, dir);
     }
 
@@ -176,7 +175,7 @@ public:
 
     //// Attacks ////
     void setAttack(int id, std::vector<const char*> texture_paths) {
-        Attack attack = { {texture_manager.get(texture_paths[0])} };
+        Attack attack = { texture_manager.get(texture_paths) };
         attacks.emplace(id, attack);
     }
 
