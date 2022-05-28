@@ -8,7 +8,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "../entity_management/entity_manager.h"
-#include "../res_loader/texture_loader.h"
+#include "../res_loader/texture_manager.h"
 #include "../window_stuff/inputs.h"
 
 int last_mouse_button_left = 0;

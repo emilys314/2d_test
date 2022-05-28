@@ -13,7 +13,7 @@
 
 #include "shader.h"
 #include "../res_loader/model_manager.h"
-#include "../res_loader/texture_loader.h"
+#include "../res_loader/texture_manager.h"
 #include "../entity_management/entity_manager.h"
 #include "../window_stuff/window.h"
 
@@ -45,7 +45,7 @@ public:
         shader.use();
         for (auto& [id, renderable] : entity_manager.renderables) {
             // bind Texture
-            glBindTexture(GL_TEXTURE_2D, renderable.textures[renderable.texture_index].getId());
+            glBindTexture(GL_TEXTURE_2D, renderable.textures[renderable.texture_index].id);
 
             glm::vec2 parent_pos = glm::vec2(0.0f, 0.0f);
             if (renderable.parent > 0) {

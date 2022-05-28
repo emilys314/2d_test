@@ -1,30 +1,11 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-class Texture{
-private:
+struct Texture {
     unsigned int id;
     int width;
     int height;
-
-public:
-    Texture(unsigned int id, int width, int height) {
-        this->id = id;
-        this->width = width;
-        this->height = height;
-    }
-
-    unsigned int getId() {
-        return id;
-    }
-
-    int getWidth() {
-        return width;
-    }
-
-    int getHeight() {
-        return height;
-    }
+    int usage_count;        // Number of entities using this model. Delete when 0
 };
 
 #endif

@@ -21,7 +21,7 @@ unsigned int flat_sqaure_indices[] = {
 };
 
 class Model_Manager {
-    std::map<std::string, Model> entity_ids = {};
+    std::map<std::string, Model> models = {};
 
 public:
     Model_Manager() {
@@ -45,17 +45,17 @@ public:
 
         temp_model.index_count = 6;
 
-        entity_ids["flat_square"] = temp_model;
+        models["flat_square"] = temp_model;
     }
 
     Model get(std::string file_path) {
         if (file_path == "flat_square")
-            return entity_ids["flat_square"];
+            return models["flat_square"];
         // if (file_path == "angled_square")
         //     return 
         else {
             std::cerr << "Invalid model file_path supplied: " << file_path << "\n";
-            return entity_ids["flat_square"];
+            return models["flat_square"];
         }
     }
 };

@@ -15,7 +15,7 @@
 
 #include "../graphics/texture.h"
 #include "../res_loader/model_manager.h"
-#include "../res_loader/texture_loader.h"
+#include "../res_loader/texture_manager.h"
 
 struct Entity {
     std::string name = "";
@@ -67,6 +67,7 @@ private:
     int next_id = 1;
 
     Model_Manager model_manager = Model_Manager();
+    Texture_Manager texture_manager = Texture_Manager();
 
 public:
     int player = -1;
@@ -110,8 +111,8 @@ public:
 
     //// Square ////
     Renderable& setRenderable(int id, glm::vec2 pos, float height, std::vector<const char*> texture_paths, std::string model, int parent = 0) {
-        std::vector<Texture> textures = { load_texture_2d(texture_paths[0]) };
-        glm::vec2 scale = glm::vec2(textures[0].getWidth(), textures[0].getHeight());
+        std::vector<Texture> textures = { texture_manager.get(texture_paths[0]) };
+        glm::vec2 scale = glm::vec2(textures[0].width, textures[0].height);
         Renderable square = { pos, scale, height, textures, 0, model_manager.get(model), parent };
         renderables.emplace(id, square);
         return renderables[id];
@@ -139,8 +140,9 @@ public:
     }
 
     //// Directions ////
-    void setDirectional(int id, std::vector<Texture> south_textures, std::vector<Texture> west_textures, std::vector<Texture> east_textures, std::vector<Texture> north_textures, int direction) {
-        Directional dir = { south_textures, west_textures, east_textures, north_textures, direction };
+    void setDirectional(int id, std::vector<const char*> south_textures, std::vector<const char*> west_textures, std::vector<const char*> east_textures, std::vector<const char*> north_textures, int direction) {
+        // std::vector<Texture> textures = { load_texture_2d(texture_paths[0]) };
+        Directional dir = { {texture_manager.get(south_textures[0])}, {texture_manager.get(west_textures[0])}, {texture_manager.get(east_textures[0])}, {texture_manager.get(north_textures[0])}, direction };
         directionals.emplace(id, dir);
     }
 
@@ -173,8 +175,8 @@ public:
     }
 
     //// Attacks ////
-    void setAttack(int id, std::vector<Texture> texture) {
-        Attack attack = { texture };
+    void setAttack(int id, std::vector<const char*> texture_paths) {
+        Attack attack = { {texture_manager.get(texture_paths[0])} };
         attacks.emplace(id, attack);
     }
 
