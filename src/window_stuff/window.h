@@ -2,7 +2,7 @@
 #define WINDOW_MANAGER_H
 
 #include <iostream>
-#include <glad/glad.h>
+#include <glad/gl.h>
 #include <GLFW/glfw3.h>
 
 
@@ -14,19 +14,19 @@ private:
 
     double lastTime = glfwGetTime();
     int frame_count = 0;
-    
+
 public:
-    GLFWwindow * glfwwindow;
+    GLFWwindow* glfwwindow;
 
     Window() {
         glfwInit();
-        // glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        // glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-        // glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
- 
-        #ifdef __APPLE__
-            glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-        #endif
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+#ifdef __APPLE__
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
 
         //// glfw window creation ////
         this->glfwwindow = glfwCreateWindow(current_width, current_height, "LearnOpenGL", NULL, NULL);
@@ -35,24 +35,24 @@ public:
             glfwTerminate();
         }
         glfwMakeContextCurrent(this->glfwwindow);
-        
+
         //// glad: load all OpenGL function pointers ////
-        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-            std::cout << "Failed to initialize GLAD" << std::endl;
-            glfwTerminate();
+        int version = gladLoadGL(glfwGetProcAddress);
+        if (version == 0) {
+            printf("Failed to initialize OpenGL context\n");
         }
-        
-        glfwSetWindowUserPointer(glfwwindow, static_cast<void *>(this));
-        glfwSetFramebufferSizeCallback(this->glfwwindow, [](GLFWwindow *window, int width, int height) {
-                        auto self = static_cast<Window*>(glfwGetWindowUserPointer(window));
-                        std::cout << width << " " << height << "\n";
-                        glViewport(0, 0, width, height);
+
+        glfwSetWindowUserPointer(glfwwindow, static_cast<void*>(this));
+        glfwSetFramebufferSizeCallback(this->glfwwindow, [](GLFWwindow* window, int width, int height) {
+            auto self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+            std::cout << width << " " << height << "\n";
+            glViewport(0, 0, width, height);
             });
 
-        glfwSetWindowUserPointer(glfwwindow, static_cast<void *>(this));
+        glfwSetWindowUserPointer(glfwwindow, static_cast<void*>(this));
         glfwSetKeyCallback(this->glfwwindow, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
-                        auto self = static_cast<Window*>(glfwGetWindowUserPointer(window));
-                        std::cout << "Key " << glfwGetKeyName(key, 0) << " " << action << "\n";
+            auto self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+            std::cout << "Key " << glfwGetKeyName(key, 0) << " " << action << "\n";
             });
 
         //// get version info ////
@@ -63,7 +63,7 @@ public:
     void performance_counter() {
         double currentTime = glfwGetTime();
         frame_count++;
-        if (currentTime - lastTime >= 1.0){ // If last printf() was more than 1 sec ago
+        if (currentTime - lastTime >= 1.0) { // If last printf() was more than 1 sec ago
             std::string title = std::to_string(frame_count) + "fps";
             glfwSetWindowTitle(this->getGlfwWindow(), title.c_str());
 
@@ -72,7 +72,7 @@ public:
         }
     }
 
-    GLFWwindow * getGlfwWindow() {
+    GLFWwindow* getGlfwWindow() {
         return this->glfwwindow;
     }
 
