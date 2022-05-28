@@ -58,6 +58,7 @@ public:
         //// get version info ////
         printf("Renderer: %s\n", glGetString(GL_RENDERER));
         printf("OpenGL version supported %s\n", glGetString(GL_VERSION));
+        printf("Loaded GL %d.%d\n", GLAD_VERSION_MAJOR(version), GLAD_VERSION_MINOR(version));
     }
 
     void performance_counter() {
