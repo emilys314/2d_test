@@ -71,6 +71,7 @@ private:
 
 public:
     int player = -1;
+    
 
     std::map<int, Entity> entity_ids = {};
     std::map<int, Renderable> renderables = {};

@@ -7,7 +7,7 @@
 			"command": "C:\\msys64\\mingw64\\bin\\g++.exe",
 			"args": [
 				"-g",
-				"-std=c++17",
+				"-std=c++20",
 				"-I${workspaceFolder}/include",
 				"-L${workspaceFolder}/lib",
 				"${workspaceFolder}/src/*.cpp",
