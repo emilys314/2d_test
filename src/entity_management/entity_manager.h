@@ -79,7 +79,7 @@ public:
 
     //// Entity ////
     int createEntity(std::string name = "") {
-        Entity entity = {name};
+        Entity entity = { name };
         entity_ids.emplace(next_id, entity);
         return next_id++;
     }
@@ -106,21 +106,21 @@ public:
     //// Square ////
     Renderable& setRenderable(int id, glm::vec2 pos, float height, std::vector<Texture> textures, int parent = 0) {
         glm::vec2 scale = glm::vec2(textures[0].getWidth(), textures[0].getHeight());
-        Renderable square = {pos, scale, height, textures, 0, parent};
+        Renderable square = { pos, scale, height, textures, 0, parent };
         renderables.emplace(id, square);
         return renderables[id];
     }
 
-    Renderable &getRenderable(int id) {
+    Renderable& getRenderable(int id) {
         return renderables[id];
     }
 
     //// Cameras ////
-    void setCamera(int id, glm::vec3 pos){
+    void setCamera(int id, glm::vec3 pos) {
         cameras.emplace(id, pos);
     }
 
-    glm::vec3 &getCamera(int id) {
+    glm::vec3& getCamera(int id) {
         return cameras[id];
     }
 
@@ -134,11 +134,11 @@ public:
 
     //// Directions ////
     void setDirectional(int id, std::vector<Texture> south_textures, std::vector<Texture> west_textures, std::vector<Texture> east_textures, std::vector<Texture> north_textures, int direction) {
-        Directional dir = {south_textures, west_textures, east_textures, north_textures, direction};
+        Directional dir = { south_textures, west_textures, east_textures, north_textures, direction };
         directionals.emplace(id, dir);
     }
 
-    Directional &getDirectional(int id) {
+    Directional& getDirectional(int id) {
         return directionals[id];
     }
 
@@ -148,27 +148,27 @@ public:
 
     //// Bounding Boxes ////
     void setBoundingBox(int id, float xmin, float xmax, float ymin, float ymax) {
-        BoundingBox box = {xmin, xmax, ymin, ymax};
+        BoundingBox box = { xmin, xmax, ymin, ymax };
         boundingBoxes.emplace(id, box);
     }
 
-    BoundingBox &getBoundingBox(int id) {
+    BoundingBox& getBoundingBox(int id) {
         return boundingBoxes[id];
     }
 
     //// Movement ////
     void setMovement(int id, glm::vec2 velocity, float weight = 50.0f, float friction = 1.0f) {
-        Movement tmp = {velocity, weight, friction};
+        Movement tmp = { velocity, weight, friction };
         movements.emplace(id, tmp);
     }
 
-    Movement &getMovement(int id) {
+    Movement& getMovement(int id) {
         return movements[id];
     }
 
     //// Attacks ////
     void setAttack(int id, std::vector<Texture> texture) {
-        Attack attack = {texture};
+        Attack attack = { texture };
         attacks.emplace(id, attack);
     }
 

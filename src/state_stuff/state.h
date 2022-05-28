@@ -42,7 +42,7 @@ public:
         // BEAR
         std::vector<Texture> bear_textures = { load_texture_2d("res/bear.png") };
         int bear = entity_manager.createEntity("bear");
-        entity_manager.setRenderable(bear, glm::vec2(0.0f, 32.0f), 0.5f, bear_textures);
+        entity_manager.setRenderable(bear, glm::vec2(0.0f, 32.0f), 1.5f, bear_textures);
 
         // GRASS FLOOR
         std::vector<Texture> textures_grass = { load_texture_2d("res/grass_16.png") };
@@ -57,7 +57,7 @@ public:
         int rock2 = create_rock(entity_manager, glm::vec2(-3.0f, -3.0f));
 
         main_cam = entity_manager.createEntity("camera");
-        entity_manager.setCamera(main_cam, glm::vec3(0.0f, 0.0f, 1.0f));
+        entity_manager.setCamera(main_cam, glm::vec3(0.0f, 0.0f, 101.0f));
 
     }
 

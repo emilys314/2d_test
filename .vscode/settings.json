@@ -72,5 +72,6 @@
         "string_view": "cpp",
         "numbers": "cpp",
         "cinttypes": "cpp"
-    }
+    },
+    "editor.tabSize": 4
 }
