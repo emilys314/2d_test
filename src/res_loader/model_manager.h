@@ -8,14 +8,14 @@
 
 #include "../graphics/model.h"
 
-float temp_vertices[] = {
+float flat_square_vertices[] = {
     // positions      // tex coords
     0.5f, 0.5f, 0.0f, 1.0f, 1.0f,   // top right
     0.5f, -0.5f, 0.0f, 1.0f, 0.0f,  // bottom right
     -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, // bottom left
     -0.5f, 0.5f, 0.0f, 0.0f, 1.0f   // top left
 };
-unsigned int temp_indices[] = {
+unsigned int flat_sqaure_indices[] = {
     0, 1, 3, // first triangle
     1, 2, 3  // second triangle
 };
@@ -33,9 +33,9 @@ public:
 
         glBindVertexArray(temp_model.VAO);
         glBindBuffer(GL_ARRAY_BUFFER, temp_model.VBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(temp_vertices), temp_vertices, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(flat_square_vertices), flat_square_vertices, GL_STATIC_DRAW);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, temp_model.EBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(temp_indices), temp_indices, GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(flat_sqaure_indices), flat_sqaure_indices, GL_STATIC_DRAW);
 
         // position attribute
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
@@ -45,11 +45,18 @@ public:
 
         temp_model.index_count = 6;
 
-        entity_ids["square"] = temp_model;
+        entity_ids["flat_square"] = temp_model;
     }
 
     Model get(std::string file_path) {
-        return entity_ids["square"];
+        if (file_path == "flat_square")
+            return entity_ids["flat_square"];
+        // if (file_path == "angled_square")
+        //     return 
+        else {
+            std::cerr << "Invalid model file_path supplied: " << file_path << "\n";
+            return entity_ids["flat_square"];
+        }
     }
 };
 

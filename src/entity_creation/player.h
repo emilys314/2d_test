@@ -15,7 +15,7 @@ int create_player(Entity_Manager &entity_manager, glm::vec2 pos) {
 
     int player = entity_manager.createEntity("player");
     entity_manager.player = player;
-    entity_manager.setRenderable(player, pos, 0.5f, textures_player);
+    entity_manager.setRenderable(player, pos, 0.5f, textures_player, "flat_square");
     entity_manager.setDirectional(player, textures_player, textures_player_left, textures_player_right, textures_player_up, SOUTH);
     entity_manager.setBoundingBox(player, -8.0f, 8.0f, -16.0f, 0.0f);
     entity_manager.setMovement(player, glm::vec2(0.0f, 0.0f), 50.0f, 1.0f);

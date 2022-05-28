@@ -19,7 +19,7 @@ void proceessAttacks(Entity_Manager& entity_manager, Inputs &inputs) {
 
         std::vector<Texture> sword_textures = { load_texture_2d("res/sword_sweep.png") };
         int sword = entity_manager.createEntity();
-        entity_manager.setRenderable(sword, glm::vec2(8.0f, 0.0f), 0.9f, sword_textures, entity_manager.player);
+        entity_manager.setRenderable(sword, glm::vec2(8.0f, 0.0f), 0.9f, sword_textures, "square", entity_manager.player);
         entity_manager.setExpiration(sword, 1.0f);
     }
 

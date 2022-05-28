@@ -12,7 +12,6 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "shader.h"
-#include "../res_loader/model_square.h"
 #include "../res_loader/model_manager.h"
 #include "../res_loader/texture_loader.h"
 #include "../entity_management/entity_manager.h"
@@ -23,8 +22,6 @@ class Renderer {
 private:
     GLFWwindow* glfwwindow;
     Shader shader;
-    Model_Square square;
-    // Model_Manager model_manager;
 
 public:
     Renderer() {}
@@ -32,10 +29,6 @@ public:
     Renderer(Window& window) {
         // build and compile our shader program
         shader = Shader("src/graphics/basic.vs", "src/graphics/basic.fs");
-
-        // load model(s)
-        // square = Model_Square();
-        // model_manager = Model_Manager();
 
         glEnable(GL_DEPTH_TEST);
 
