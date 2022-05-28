@@ -24,7 +24,7 @@ private:
     GLFWwindow* glfwwindow;
     Shader shader;
     Model_Square square;
-    Model_Manager model_manager;
+    // Model_Manager model_manager;
 
 public:
     Renderer() {}
@@ -35,7 +35,7 @@ public:
 
         // load model(s)
         // square = Model_Square();
-        model_manager = Model_Manager();
+        // model_manager = Model_Manager();
 
         glEnable(GL_DEPTH_TEST);
 
@@ -70,8 +70,8 @@ public:
             shader.setMat4("uni_mvp", mat_mvp);
 
             // draw
-            glBindVertexArray(model_manager.get("square").VAO);
-            glDrawElements(GL_TRIANGLES, model_manager.get("square").index_count, GL_UNSIGNED_INT, 0);
+            glBindVertexArray(renderable.model.VAO);
+            glDrawElements(GL_TRIANGLES, renderable.model.index_count, GL_UNSIGNED_INT, 0);
         }
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

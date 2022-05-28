@@ -14,6 +14,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "../graphics/texture.h"
+#include "../res_loader/model_manager.h"
 
 struct Entity {
     std::string name = "";
@@ -25,6 +26,7 @@ struct Renderable {
     float height;
     std::vector<Texture> textures;
     int texture_index = 0;
+    Model model;
     int parent = -1;
 };
 
@@ -62,6 +64,8 @@ struct Attack {
 class Entity_Manager {
 private:
     int next_id = 1;
+
+    Model_Manager model_manager = Model_Manager();
 
 public:
     int player = -1;
@@ -106,7 +110,7 @@ public:
     //// Square ////
     Renderable& setRenderable(int id, glm::vec2 pos, float height, std::vector<Texture> textures, int parent = 0) {
         glm::vec2 scale = glm::vec2(textures[0].getWidth(), textures[0].getHeight());
-        Renderable square = { pos, scale, height, textures, 0, parent };
+        Renderable square = { pos, scale, height, textures, 0, model_manager.get("square"), parent };
         renderables.emplace(id, square);
         return renderables[id];
     }
