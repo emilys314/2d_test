@@ -40,16 +40,18 @@ public:
 
 
         // BEAR
-        std::vector<Texture> bear_textures = { load_texture_2d("res/bear.png") };
+        // std::vector<Texture> bear_textures = { load_texture_2d("res/bear.png") };
+        // std::vector<char*> bear_texture_paths = {"res/bear.png"};
         int bear = entity_manager.createEntity("bear");
-        entity_manager.setRenderable(bear, glm::vec2(0.0f, 32.0f), 1.5f, bear_textures, "flat_square");
+        entity_manager.setRenderable(bear, glm::vec2(0.0f, 32.0f), 1.5f, {"res/bear.png"}, "flat_square");
 
         // GRASS FLOOR
-        std::vector<Texture> textures_grass = { load_texture_2d("res/grass_16.png") };
+        // std::vector<Texture> textures_grass = { load_texture_2d("res/grass_16.png") };
+        // std::vector<char*> bear_texture_paths = {"res/grass_16.png"}
         for (int x = -20; x <= 20; x++) {
             for (int y = -20; y <= 20; y++) {
                 int id = entity_manager.createEntity("grass");
-                entity_manager.setRenderable(id, glm::vec2(x * 16, y * 16), 0.0f, textures_grass, "flat_square");
+                entity_manager.setRenderable(id, glm::vec2(x * 16, y * 16), 0.0f, {"res/grass_16.png"}, "flat_square");
             }
         }
 
