@@ -22,8 +22,8 @@ struct Entity {
 };
 
 struct Renderable {
-    glm::vec2 position = glm::vec2(0.0f, 0.0f);
-    glm::vec2 scale = glm::vec2(1.0f, 1.0f);
+    glm::vec2 position = {0.0f, 0.0f};
+    glm::vec3 scale = {1.0f, 1.0f, 1.0f};
     float height;
     std::vector<Texture> textures;
     int texture_index = 0;
@@ -57,10 +57,7 @@ struct Movement {
     float friction = 1.0f;
 };
 
-struct Attack {
-    std::vector<Texture> textures;
-    // const std::function<void(Entity_Manager)> func;
-};
+
 
 class Entity_Manager {
 private:
@@ -79,7 +76,7 @@ public:
     std::map<int, Directional> directionals = {};
     std::map<int, BoundingBox> boundingBoxes = {};
     std::map<int, Movement> movements = {};
-    std::map<int, Attack> attacks = {};
+    // std::map<int, Attack> attacks = {};
     std::map<int, double> expirations = {};     // TODO chagne to more efficient data structure
 
     Entity_Manager() { }
@@ -102,7 +99,7 @@ public:
         directionals.erase(id);
         boundingBoxes.erase(id);
         movements.erase(id);
-        attacks.erase(id);
+        // attacks.erase(id);
         expirations.erase(id);
 
         printf("Erased %i\n", id);
@@ -113,7 +110,7 @@ public:
     //// Square ////
     Renderable& setRenderable(int id, glm::vec2 pos, float height, std::vector<const char*> texture_paths, std::string model, int parent = 0) {
         std::vector<Texture> textures = texture_manager.get(texture_paths);
-        glm::vec2 scale = glm::vec2(textures[0].width, textures[0].height);
+        glm::vec3 scale = {textures[0].width, textures[0].height, textures[0].height};
         Renderable square = { pos, scale, height, textures, 0, model_manager.get(model), parent };
         renderables.emplace(id, square);
         return renderables[id];
@@ -172,16 +169,6 @@ public:
 
     Movement& getMovement(int id) {
         return movements[id];
-    }
-
-    //// Attacks ////
-    void setAttack(int id, std::vector<const char*> texture_paths) {
-        Attack attack = { texture_manager.get(texture_paths) };
-        attacks.emplace(id, attack);
-    }
-
-    Attack& getAttack(int id) {
-        return attacks[id];
     }
 
     //// Expiration ////

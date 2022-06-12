@@ -54,7 +54,7 @@ public:
 
             // model
             glm::mat4 mat_model = glm::translate(glm::mat4(1.0f), glm::vec3(renderable.position + parent_pos, renderable.height));
-            mat_model = glm::scale(mat_model, glm::vec3(renderable.scale, 1.0f));
+            mat_model = glm::scale(mat_model, glm::vec3(renderable.scale));
             glm::mat4 mat_view = glm::translate(entity_manager.getCameraView(camera_id), glm::vec3(window.getFrameWidth() / (scale*2), window.getFrameHeight() / (scale*2), 0.0f));
             glm::mat4 mat_projection = glm::ortho(0.0f, (float)window.getFrameWidth() / scale, 0.0f, window.getFrameHeight() / scale, 0.1f, 101.0f);
 
