@@ -15,18 +15,7 @@ int create_player(Entity_Manager &entity_manager, glm::vec2 pos) {
     entity_manager.setBoundingBox(player, -8.0f, 8.0f, -16.0f, 0.0f);
     entity_manager.setMovement(player, glm::vec2(0.0f, 0.0f), 50.0f, 1.0f);
 
-    // entity_manager.setAction(player, "")
 
-
-    // auto attack = [](Entity_Manager entity_manager) {
-    //     printf("Attack");
-
-    //     std::vector<Texture> sword_textures = { load_texture_2d("res/sword.png") };
-    //     int sword = entity_manager.createEntity();
-    //     entity_manager.setRenderable(sword, glm::vec2(8.0f, 0.0f), 0.5f, sword_textures, entity_manager.player);
-    // };
-
-    // entity_manager.setAttack(player, {"res/sword_sweep.png"});
     
     return player;
 }

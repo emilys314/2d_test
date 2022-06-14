@@ -76,7 +76,6 @@ public:
     std::map<int, Directional> directionals = {};
     std::map<int, BoundingBox> boundingBoxes = {};
     std::map<int, Movement> movements = {};
-    // std::map<int, Attack> attacks = {};
     std::map<int, double> expirations = {};     // TODO chagne to more efficient data structure
 
     Entity_Manager() { }

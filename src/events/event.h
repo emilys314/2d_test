@@ -2,14 +2,12 @@
 #define EVENT_H
 
 #include "../entity_management/entity_manager.h"
+class EventManager;
 
 class Event {
-private:
-
-
 public:
 
-    virtual void execute(Entity_Manager &entity_manager) = 0;
+    virtual void execute() = 0;
 };
 
 

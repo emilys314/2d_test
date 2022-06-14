@@ -29,8 +29,8 @@ void proceessAttacks(Entity_Manager& entity_manager, EventManager& event_manager
         // attack->execute(entity_manager);
 
 
-        std::unique_ptr<Event> attack(new EventAttack(entity_manager, entity_manager.player));
-        event_manager.add_event(std::move(attack));
+        std::unique_ptr<Event> attack(new EventAttack(entity_manager, event_manager, entity_manager.player));
+        event_manager.add_regular_event(std::move(attack));
 
         // event_manager.run_events(entity_manager);
 
