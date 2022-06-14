@@ -6,6 +6,7 @@
 #include <map>
 #include <vector>
 #include <functional>
+#include <memory>
 
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
@@ -13,6 +14,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "../drivers/parent_driver.h"
 #include "../graphics/texture.h"
 #include "../res_loader/model_manager.h"
 #include "../res_loader/texture_manager.h"
@@ -77,6 +79,7 @@ public:
     std::map<int, BoundingBox> boundingBoxes = {};
     std::map<int, Movement> movements = {};
     std::map<int, double> expirations = {};     // TODO chagne to more efficient data structure
+    std::map<int, std::shared_ptr<Driver>> drivers = {};
 
     Entity_Manager() { }
 
@@ -100,6 +103,7 @@ public:
         movements.erase(id);
         // attacks.erase(id);
         expirations.erase(id);
+        drivers.erase(id);
 
         printf("Erased %i\n", id);
     }
@@ -179,6 +183,14 @@ public:
     double getExpiration(int id) {
         return expirations[id];
     }
+
+    // Drivers ////
+    void setDriver(int id, std::shared_ptr<Driver> driver) {
+        // drivers.emplace(std::move(driver));
+        drivers[id] = std::move(driver);
+    }
+
+
 };
 
 #endif

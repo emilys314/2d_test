@@ -3,7 +3,9 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 
+#include "../drivers/playable_character.h"
 #include "../entity_management/entity_manager.h"
 #include "../res_loader/texture_manager.h"
 
@@ -15,6 +17,12 @@ int create_player(Entity_Manager &entity_manager, glm::vec2 pos) {
     entity_manager.setBoundingBox(player, -8.0f, 8.0f, -16.0f, 0.0f);
     entity_manager.setMovement(player, glm::vec2(0.0f, 0.0f), 50.0f, 1.0f);
 
+    std::shared_ptr<Driver> attack(new PlayableCharacter());
+
+    // PlayableCharacter pc = PlayableCharacter();
+    // std::unique_ptr<Event> attack(new EventAttack(entity_manager, event_manager, entity_manager.player));
+    // event_manager.add_regular_event(std::move(attack));
+    entity_manager.setDriver(player, std::move(attack));
 
     
     return player;
