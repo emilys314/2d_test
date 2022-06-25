@@ -2,7 +2,7 @@
 #include <string>
 #include <cstring>
 
-#include "state_stuff/state.h"
+#include "states/state.h"
 #include "window_stuff/window.h"
 #include "window_stuff/inputs.h"
 

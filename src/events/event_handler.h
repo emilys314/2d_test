@@ -1,5 +1,5 @@
-#ifndef EVENT_MANAGER_H
-#define EVENT_MANAGER_H
+#ifndef EVENT_HANDLER_H
+#define EVENT_HANDLER_H
 
 #include <queue>          // std::queue
 #include <vector>

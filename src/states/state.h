@@ -10,7 +10,7 @@
 #include "../entity_creation/rock.h"
 #include "../entity_creation/player.h"
 #include "../entity_management/entity_manager.h"
-#include "../events/event_manager.h"
+#include "../events/event_handler.h"
 #include "../graphics/renderer.h"
 #include "../logic/actions.h"
 #include "../logic/process_drivers.h"
@@ -32,7 +32,7 @@ private:
     int main_cam;
     int player;
 
-    EventManager event_manager = EventManager();
+    EventManager event_handler = EventManager();
 
 public:
     State(Window window, Inputs& inputs) {
@@ -41,7 +41,7 @@ public:
         timer = Timer();
 
         // PLAYER
-        player = createPlayer(entity_manager, event_manager, inputs, glm::vec2(0.0f, 0.0f));
+        player = createPlayer(entity_manager, event_handler, inputs, glm::vec2(0.0f, 0.0f));
 
 
         // BEAR
@@ -71,9 +71,9 @@ public:
         processMovementCollisions(timer, inputs, entity_manager, player);
         updateCameraPosition(entity_manager, main_cam, player);
         updateDirections(entity_manager);
-        // proceessAttacks(entity_manager, event_manager, inputs);
+        // proceessAttacks(entity_manager, event_handler, inputs);
         processDrivers(entity_manager);
-        event_manager.runEvents(entity_manager);
+        event_handler.runEvents(entity_manager);
         renderer.render(window, main_cam, entity_manager);
 
         if (inputs.getKey(GLFW_KEY_ESCAPE) >= GLFW_PRESS)
