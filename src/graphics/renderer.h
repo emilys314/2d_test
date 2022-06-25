@@ -36,7 +36,7 @@ public:
         // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 
-    void render(Window& window, int camera_id, std::shared_ptr<Entity_Manager> entity_manager) {
+    void render(Window& window, int camera_id, std::shared_ptr<EntityManager> entity_manager) {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

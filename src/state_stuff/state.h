@@ -28,7 +28,7 @@ private:
     Timer timer;
 
     // Entity_Manager entity_manager = Entity_Manager();
-    std::shared_ptr<Entity_Manager> entity_manager = std::make_shared<Entity_Manager>();
+    std::shared_ptr<EntityManager> entity_manager = std::make_shared<EntityManager>();
     int main_cam;
     int player;
 
@@ -80,7 +80,7 @@ public:
             glfwSetWindowShouldClose(window.glfwwindow, true);
     }
 
-    std::shared_ptr<Entity_Manager> getEntities() {
+    std::shared_ptr<EntityManager> getEntities() {
         return entity_manager;
     }
 };

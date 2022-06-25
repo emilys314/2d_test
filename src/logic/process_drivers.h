@@ -3,7 +3,7 @@
 
 #include "../entity_management/entity_manager.h"
 
-void processDrivers(std::shared_ptr<Entity_Manager> entity_manager) {
+void processDrivers(std::shared_ptr<EntityManager> entity_manager) {
     for (auto& [id, driver] : entity_manager->drivers) {
         driver->check_inputs();
     }

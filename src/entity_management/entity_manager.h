@@ -61,7 +61,7 @@ struct Movement {
 
 
 
-class Entity_Manager {
+class EntityManager {
 private:
     int next_id = 1;
 
@@ -81,7 +81,7 @@ public:
     std::map<int, double> expirations = {};     // TODO chagne to more efficient data structure
     std::map<int, std::shared_ptr<Driver>> drivers = {};
 
-    Entity_Manager() { }
+    EntityManager() { }
 
     //// Entity ////
     int createEntity(std::string name = "") {

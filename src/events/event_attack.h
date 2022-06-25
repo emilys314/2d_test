@@ -8,11 +8,11 @@
 
 class EventAttack : public Event {
 private:
-    std::shared_ptr<Entity_Manager> entity_manager;
+    std::shared_ptr<EntityManager> entity_manager;
     EventManager& event_manager;
 
 public:
-    EventAttack(std::shared_ptr<Entity_Manager> entity_manager, EventManager& event_manager, int parent_id) : event_manager(event_manager) {
+    EventAttack(std::shared_ptr<EntityManager> entity_manager, EventManager& event_manager, int parent_id) : event_manager(event_manager) {
         // printf("EventAttack()\n");
         this->entity_manager = entity_manager;
     }

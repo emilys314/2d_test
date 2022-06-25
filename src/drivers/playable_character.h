@@ -9,13 +9,13 @@
 
 class PlayableCharacter : public Driver {
 private:
-    std::shared_ptr<Entity_Manager> entity_manager;
+    std::shared_ptr<EntityManager> entity_manager;
     EventManager& event_manager;
     Inputs& inputs;
     int last_mouse_button_left = 0;
 
 public:
-    PlayableCharacter(std::shared_ptr<Entity_Manager> entity_manager, EventManager& event_manager, Inputs& inputs) :
+    PlayableCharacter(std::shared_ptr<EntityManager> entity_manager, EventManager& event_manager, Inputs& inputs) :
             event_manager(event_manager), inputs(inputs) {
         this->entity_manager = entity_manager;
         printf("PlayableCharacter created\n");

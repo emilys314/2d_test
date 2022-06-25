@@ -4,7 +4,7 @@
 #include "../entity_management/entity_manager.h"
 #include "timer.h"
 
-void proceessExpirables(std::shared_ptr<Entity_Manager> entity_manager, Timer& timer) {
+void proceessExpirables(std::shared_ptr<EntityManager> entity_manager, Timer& timer) {
 
     auto iter = entity_manager->expirations.begin();
     while (iter != entity_manager->expirations.end()) {

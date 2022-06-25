@@ -12,7 +12,7 @@
 #include "../entity_management/entity_manager.h"
 #include "../window_stuff/inputs.h"
 
-void processPlayerInput(Timer timer, Inputs& inputs, std::shared_ptr<Entity_Manager> entity_manager, int player_id) {
+void processPlayerInput(Timer timer, Inputs& inputs, std::shared_ptr<EntityManager> entity_manager, int player_id) {
     float speed = 64.0f * timer.getDeltaTime();
 
     glm::vec2 direction = glm::vec2(0.0f, 0.0f);

@@ -16,7 +16,7 @@ bool isOverlapping1D(float xmin1, float xmax1, float xmin2, float xmax2) {
     return (xmax1 >= xmin2) && (xmax2 >= xmin1);
 }
 
-void processMovementCollisions(Timer timer, Inputs& inputs, std::shared_ptr<Entity_Manager> entity_manager, int player_id) {
+void processMovementCollisions(Timer timer, Inputs& inputs, std::shared_ptr<EntityManager> entity_manager, int player_id) {
     float speed = 64.0f * timer.getDeltaTime();
 
     glm::vec2 new_position = entity_manager->getRenderable(player_id).position + entity_manager->getMovement(player_id).velocity;
@@ -58,7 +58,7 @@ void processMovementCollisions(Timer timer, Inputs& inputs, std::shared_ptr<Enti
     entity_manager->getRenderable(player_id).position += entity_manager->getMovement(player_id).velocity;
 }
 
-void updateDirections(std::shared_ptr<Entity_Manager> entity_manager) {
+void updateDirections(std::shared_ptr<EntityManager> entity_manager) {
     for (auto const& [id, directional] : entity_manager->directionals)
     {
         if (directional.direction == SOUTH)
