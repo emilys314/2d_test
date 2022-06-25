@@ -7,11 +7,12 @@
 
 #include "../drivers/playable_character.h"
 #include "../entity_management/entity_manager.h"
-#include "../res_loader/texture_manager.h"
 #include "../events/event_handler.h"
+#include "../res_loader/texture_manager.h"
+#include "../logic/timer.h"
 #include "../window_stuff/inputs.h"
 
-int createPlayer(std::shared_ptr<EntityManager> entity_manager, EventManager& event_handler, Inputs& inputs, glm::vec2 pos) {
+int createPlayer(std::shared_ptr<EntityManager> entity_manager, EventManager& event_handler, Timer& timer, Inputs& inputs, glm::vec2 pos) {
     int player = entity_manager->createEntity("player");
     entity_manager->player = player;
     entity_manager->setRenderable(player, pos, 16.0f, { "res/player/player.png" }, "angled_square");
@@ -19,7 +20,7 @@ int createPlayer(std::shared_ptr<EntityManager> entity_manager, EventManager& ev
     entity_manager->setBoundingBox(player, -8.0f, 8.0f, -16.0f, 0.0f);
     entity_manager->setMovement(player, glm::vec2(0.0f, 0.0f), 50.0f, 1.0f);
 
-    std::shared_ptr<Driver> pc(new PlayableCharacter(entity_manager, event_handler, inputs));
+    std::shared_ptr<Driver> pc(new PlayableCharacter(player, entity_manager, event_handler, inputs, timer));
     entity_manager->setDriver(player, std::move(pc));
 
 

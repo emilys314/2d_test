@@ -16,7 +16,6 @@
 #include "../logic/process_drivers.h"
 #include "../logic/expirable.h"
 #include "../logic/movement_collision.h"
-#include "../logic/player_input.h"
 #include "../logic/timer.h"
 #include "../logic/update_camera.h"
 #include "../window_stuff/inputs.h"
@@ -41,7 +40,7 @@ public:
         timer = Timer();
 
         // PLAYER
-        player = createPlayer(entity_manager, event_handler, inputs, glm::vec2(0.0f, 0.0f));
+        player = createPlayer(entity_manager, event_handler, timer, inputs, glm::vec2(0.0f, 0.0f));
 
 
         // BEAR
@@ -67,7 +66,6 @@ public:
     void step(Window& window, Inputs& inputs) {
         timer.setTime();
         proceessExpirables(entity_manager, timer);
-        processPlayerInput(timer, inputs, entity_manager, player);
         processMovementCollisions(timer, inputs, entity_manager, player);
         updateCameraPosition(entity_manager, main_cam, player);
         updateDirections(entity_manager);
