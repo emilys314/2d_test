@@ -3,17 +3,32 @@
 
 #include <stdio.h>
 #include "parent_driver.h"
+#include "../events/event_manager.h"
+#include "../events/event_attack.h"
+#include "../window_stuff/inputs.h"
 
 class PlayableCharacter : public Driver {
 private:
+    Entity_Manager& entity_manager;
+    EventManager& event_manager;
+    Inputs& inputs;
+    int last_mouse_button_left = 0;
 
 public:
-    PlayableCharacter() {
-
+    PlayableCharacter(Entity_Manager& entity_manager, EventManager& event_manager, Inputs& inputs) :
+            entity_manager(entity_manager), event_manager(event_manager), inputs(inputs) {
+        printf("PlayableCharacter created\n");
     }
 
     void check_inputs() {
-        printf("PlayableCharacter check_input");
+        // printf("PlayableCharacter check_input\n");
+        if (inputs.getMouseButton(GLFW_MOUSE_BUTTON_LEFT) > 0 && last_mouse_button_left == 0) {
+            printf("Driver proceessAttacks\n");
+            std::unique_ptr<Event> attack(new EventAttack(entity_manager, event_manager, entity_manager.player));
+            event_manager.add_regular_event(std::move(attack));
+        }
+
+        last_mouse_button_left = inputs.getMouseButton(GLFW_MOUSE_BUTTON_LEFT);
     }
 };
 

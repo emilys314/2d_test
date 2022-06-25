@@ -1,8 +1,12 @@
 #ifndef PROCESS_DRIVERS_H
 #define PROCESS_DRIVERS_H
 
-void process_drivers() {
+#include "../entity_management/entity_manager.h"
 
+void processDrivers(Entity_Manager& entity_manager) {
+    for (auto& [id, driver] : entity_manager.drivers) {
+        driver->check_inputs();
+    }
 }
 
 #endif

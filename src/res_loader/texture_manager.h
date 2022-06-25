@@ -48,7 +48,7 @@ public:
             Texture texture = textures.at(filename);
             return texture;
         } catch (const std::out_of_range& e) {
-            std::cout << "Creating new Texture from " << filename << "\n";
+            // std::cout << "Creating new Texture from " << filename << "\n";
             Texture texture = this->load_texture(filename);
             textures[filename] = texture;
             return texture;

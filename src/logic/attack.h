@@ -20,22 +20,9 @@ int last_mouse_button_left = 0;
 void proceessAttacks(Entity_Manager& entity_manager, EventManager& event_manager, Inputs &inputs) {
     if(inputs.getMouseButton(GLFW_MOUSE_BUTTON_LEFT) > 0 && last_mouse_button_left == 0) {
         printf("proceessAttacks\n");
-
-        // int sword = entity_manager.createEntity();
-        // entity_manager.setRenderable(sword, glm::vec2(8.0f, 0.0f), 0.9f, {"res/sword_sweep.png"}, "square", entity_manager.player);
-        // entity_manager.setExpiration(sword, 1.0f);
-
-        // Event* attack = EventAttack(entity_manager, entity_manager.player);
-        // attack->execute(entity_manager);
-
-
         std::unique_ptr<Event> attack(new EventAttack(entity_manager, event_manager, entity_manager.player));
         event_manager.add_regular_event(std::move(attack));
-
-        // event_manager.run_events(entity_manager);
-
     }
-
 
     last_mouse_button_left = inputs.getMouseButton(GLFW_MOUSE_BUTTON_LEFT);
 }

@@ -11,7 +11,7 @@ int main() {
     Window window = Window();
     Inputs inputs = Inputs(window.getGlfwWindow());
 
-    State state = State(window);
+    State state = State(window, inputs);
 
     while (!window.shouldClose()) {
         window.performance_counter();

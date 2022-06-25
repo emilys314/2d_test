@@ -13,6 +13,7 @@
 #include "../graphics/renderer.h"
 #include "../logic/actions.h"
 #include "../logic/attack.h"
+#include "../logic/process_drivers.h"
 #include "../logic/expirable.h"
 #include "../logic/movement_collision.h"
 #include "../logic/player_input.h"
@@ -33,13 +34,13 @@ private:
     EventManager event_manager = EventManager();
 
 public:
-    State(Window window) {
+    State(Window window, Inputs& inputs) {
         std::cout << "Created State\n";
         renderer = Renderer(window);
         timer = Timer();
 
         // PLAYER
-        player = create_player(entity_manager, glm::vec2(0.0f, 0.0f));
+        player = create_player(entity_manager, event_manager, inputs, glm::vec2(0.0f, 0.0f));
 
 
         // BEAR
@@ -69,7 +70,8 @@ public:
         processMovementCollisions(timer, inputs, entity_manager, player);
         updateCameraPosition(entity_manager, main_cam, player);
         updateDirections(entity_manager);
-        proceessAttacks(entity_manager, event_manager, inputs);
+        // proceessAttacks(entity_manager, event_manager, inputs);
+        processDrivers(entity_manager);
         event_manager.run_events(entity_manager);
         renderer.render(window, main_cam, entity_manager);
 
