@@ -8,20 +8,20 @@
 
 class EventAttack : public Event {
 private:
-    Entity_Manager& entity_manager;
+    std::shared_ptr<Entity_Manager> entity_manager;
     EventManager& event_manager;
 
 public:
-    EventAttack(Entity_Manager &entity_manager, EventManager& event_manager, int parent_id) : entity_manager(entity_manager), event_manager(event_manager) {
-        // this->entity_manager = entity_manager;
+    EventAttack(std::shared_ptr<Entity_Manager> entity_manager, EventManager& event_manager, int parent_id) : event_manager(event_manager) {
+        // printf("EventAttack()\n");
+        this->entity_manager = entity_manager;
     }
 
     void execute() {
-        printf("EventAttack\n");
-
-        int sword = entity_manager.createEntity();
-        this->entity_manager.setRenderable(sword, glm::vec2(8.0f, 0.0f), 0.9f, {"res/sword_sweep.png"}, "flat_square", this->entity_manager.player);
-        this->entity_manager.setExpiration(sword, 1.0f);
+        // printf("EventAttack execute()\n");
+        int sword = this->entity_manager->createEntity();
+        this->entity_manager->setRenderable(sword, glm::vec2(8.0f, 0.0f), 0.9f, {"res/sword_sweep.png"}, "flat_square", this->entity_manager->player);
+        this->entity_manager->setExpiration(sword, 1.0f);
 
         // event_manager.add_event(new EventExpire())
         // std::unique_ptr<Event> attack(new EventExpire(entity_manager, sword, 1.0));

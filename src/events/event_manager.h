@@ -23,7 +23,7 @@ public:
         regular_queue.push(std::move(event));
     }
 
-    void run_events(Entity_Manager& entity_manager) {
+    void run_events(std::shared_ptr<Entity_Manager> entity_manager) {
         if (!regular_queue.empty()) {
             regular_queue.front()->execute();
             regular_queue.pop();

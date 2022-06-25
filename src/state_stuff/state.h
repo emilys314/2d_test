@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <memory>
 #include <vector>
 
 #include "../entity_creation/rock.h"
@@ -12,7 +13,6 @@
 #include "../events/event_manager.h"
 #include "../graphics/renderer.h"
 #include "../logic/actions.h"
-#include "../logic/attack.h"
 #include "../logic/process_drivers.h"
 #include "../logic/expirable.h"
 #include "../logic/movement_collision.h"
@@ -27,7 +27,8 @@ private:
     Renderer renderer;
     Timer timer;
 
-    Entity_Manager entity_manager = Entity_Manager();
+    // Entity_Manager entity_manager = Entity_Manager();
+    std::shared_ptr<Entity_Manager> entity_manager = std::make_shared<Entity_Manager>();
     int main_cam;
     int player;
 
@@ -44,22 +45,22 @@ public:
 
 
         // BEAR
-        int bear = entity_manager.createEntity("bear");
-        entity_manager.setRenderable(bear, glm::vec2(0.0f, 32.0f), 16.0f, {"res/bear.png"}, "angled_square");
+        int bear = entity_manager->createEntity("bear");
+        entity_manager->setRenderable(bear, glm::vec2(0.0f, 32.0f), 16.0f, {"res/bear.png"}, "angled_square");
 
         // GRASS FLOOR
         for (int x = -20; x <= 20; x++) {
             for (int y = -20; y <= 20; y++) {
-                int id = entity_manager.createEntity("grass");
-                entity_manager.setRenderable(id, glm::vec2(x * 16, y * 16), 0.0f, {"res/grass_16.png"}, "flat_square");
+                int id = entity_manager->createEntity("grass");
+                entity_manager->setRenderable(id, glm::vec2(x * 16, y * 16), 0.0f, {"res/grass_16.png"}, "flat_square");
             }
         }
 
         int rock1 = create_rock(entity_manager, glm::vec2(1.0f, 3.0f));
         int rock2 = create_rock(entity_manager, glm::vec2(-3.0f, -3.0f));
 
-        main_cam = entity_manager.createEntity("camera");
-        entity_manager.setCamera(main_cam, glm::vec3(0.0f, 0.0f, 101.0f));
+        main_cam = entity_manager->createEntity("camera");
+        entity_manager->setCamera(main_cam, glm::vec3(0.0f, 0.0f, 101.0f));
 
     }
 
@@ -79,7 +80,7 @@ public:
             glfwSetWindowShouldClose(window.glfwwindow, true);
     }
 
-    Entity_Manager& getEntities() {
+    std::shared_ptr<Entity_Manager> getEntities() {
         return entity_manager;
     }
 };

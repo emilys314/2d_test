@@ -11,8 +11,8 @@
 #include "../entity_management/entity_manager.h"
 #include "../window_stuff/inputs.h"
 
-void updateCameraPosition(Entity_Manager &entity_manager, int camera_id, int player_id) {
-    entity_manager.getCamera(camera_id) = glm::vec3(entity_manager.getRenderable(player_id).position, entity_manager.getCamera(camera_id).z);
+void updateCameraPosition(std::shared_ptr<Entity_Manager> entity_manager, int camera_id, int player_id) {
+    entity_manager->getCamera(camera_id) = glm::vec3(entity_manager->getRenderable(player_id).position, entity_manager->getCamera(camera_id).z);
 }
 
 #endif

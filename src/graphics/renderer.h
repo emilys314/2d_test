@@ -36,26 +36,26 @@ public:
         // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 
-    void render(Window& window, int camera_id, Entity_Manager& entity_manager) {
+    void render(Window& window, int camera_id, std::shared_ptr<Entity_Manager> entity_manager) {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         float scale = 4.0f;     // bigger number means zoomed in
 
         shader.use();
-        for (auto& [id, renderable] : entity_manager.renderables) {
+        for (auto& [id, renderable] : entity_manager->renderables) {
             // bind Texture
             glBindTexture(GL_TEXTURE_2D, renderable.textures[renderable.texture_index].id);
 
             glm::vec2 parent_pos = glm::vec2(0.0f, 0.0f);
             if (renderable.parent > 0) {
-                parent_pos = entity_manager.renderables[renderable.parent].position;
+                parent_pos = entity_manager->renderables[renderable.parent].position;
             }
 
             // model
             glm::mat4 mat_model = glm::translate(glm::mat4(1.0f), glm::vec3(renderable.position + parent_pos, renderable.height));
             mat_model = glm::scale(mat_model, glm::vec3(renderable.scale));
-            glm::mat4 mat_view = glm::translate(entity_manager.getCameraView(camera_id), glm::vec3(window.getFrameWidth() / (scale*2), window.getFrameHeight() / (scale*2), 0.0f));
+            glm::mat4 mat_view = glm::translate(entity_manager->getCameraView(camera_id), glm::vec3(window.getFrameWidth() / (scale*2), window.getFrameHeight() / (scale*2), 0.0f));
             glm::mat4 mat_projection = glm::ortho(0.0f, (float)window.getFrameWidth() / scale, 0.0f, window.getFrameHeight() / scale, 0.1f, 101.0f);
 
             glm::mat4 mat_mvp = mat_projection * mat_view * mat_model;
