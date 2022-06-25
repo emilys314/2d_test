@@ -5,7 +5,7 @@
 class Driver {
 public:
 
-    virtual void check_inputs() = 0;
+    virtual void checkInputs() = 0;
 };
 
 

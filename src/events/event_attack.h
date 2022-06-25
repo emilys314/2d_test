@@ -25,7 +25,7 @@ public:
 
         // event_manager.add_event(new EventExpire())
         // std::unique_ptr<Event> attack(new EventExpire(entity_manager, sword, 1.0));
-        // event_manager.add_regular_event(std::move(attack));
+        // event_manager.addRegularEvent(std::move(attack));
     }
 };
 

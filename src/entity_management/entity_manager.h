@@ -65,7 +65,7 @@ class EntityManager {
 private:
     int next_id = 1;
 
-    Model_Manager model_manager = Model_Manager();
+    ModelManager model_manager = ModelManager();
     Texture_Manager texture_manager = Texture_Manager();
 
 public:

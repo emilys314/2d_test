@@ -21,12 +21,12 @@ public:
         printf("PlayableCharacter created\n");
     }
 
-    void check_inputs() {
+    void checkInputs() {
         // printf("PlayableCharacter check_input\n");
         if (inputs.getMouseButton(GLFW_MOUSE_BUTTON_LEFT) > 0 && last_mouse_button_left == 0) {
             printf("Driver proceessAttacks\n");
             std::unique_ptr<Event> attack(new EventAttack(entity_manager, event_manager, entity_manager->player));
-            event_manager.add_regular_event(std::move(attack));
+            event_manager.addRegularEvent(std::move(attack));
         }
 
         last_mouse_button_left = inputs.getMouseButton(GLFW_MOUSE_BUTTON_LEFT);

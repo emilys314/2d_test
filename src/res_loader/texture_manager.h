@@ -14,7 +14,7 @@
 class Texture_Manager {
     std::unordered_map<std::string, Texture> textures = {};
 
-    Texture load_texture(char const* filename) {
+    Texture loadTexture(char const* filename) {
         unsigned int id;
         glGenTextures(1, &id);
         glBindTexture(GL_TEXTURE_2D, id); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
@@ -49,7 +49,7 @@ public:
             return texture;
         } catch (const std::out_of_range& e) {
             // std::cout << "Creating new Texture from " << filename << "\n";
-            Texture texture = this->load_texture(filename);
+            Texture texture = this->loadTexture(filename);
             textures[filename] = texture;
             return texture;
         }

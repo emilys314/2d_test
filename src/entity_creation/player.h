@@ -11,7 +11,7 @@
 #include "../events/event_manager.h"
 #include "../window_stuff/inputs.h"
 
-int create_player(std::shared_ptr<EntityManager> entity_manager, EventManager& event_manager, Inputs& inputs, glm::vec2 pos) {
+int createPlayer(std::shared_ptr<EntityManager> entity_manager, EventManager& event_manager, Inputs& inputs, glm::vec2 pos) {
     int player = entity_manager->createEntity("player");
     entity_manager->player = player;
     entity_manager->setRenderable(player, pos, 16.0f, { "res/player/player.png" }, "angled_square");

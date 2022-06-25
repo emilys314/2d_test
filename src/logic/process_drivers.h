@@ -5,7 +5,7 @@
 
 void processDrivers(std::shared_ptr<EntityManager> entity_manager) {
     for (auto& [id, driver] : entity_manager->drivers) {
-        driver->check_inputs();
+        driver->checkInputs();
     }
 }
 

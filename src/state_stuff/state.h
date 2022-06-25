@@ -41,7 +41,7 @@ public:
         timer = Timer();
 
         // PLAYER
-        player = create_player(entity_manager, event_manager, inputs, glm::vec2(0.0f, 0.0f));
+        player = createPlayer(entity_manager, event_manager, inputs, glm::vec2(0.0f, 0.0f));
 
 
         // BEAR
@@ -56,8 +56,8 @@ public:
             }
         }
 
-        int rock1 = create_rock(entity_manager, glm::vec2(1.0f, 3.0f));
-        int rock2 = create_rock(entity_manager, glm::vec2(-3.0f, -3.0f));
+        int rock1 = createRock(entity_manager, glm::vec2(1.0f, 3.0f));
+        int rock2 = createRock(entity_manager, glm::vec2(-3.0f, -3.0f));
 
         main_cam = entity_manager->createEntity("camera");
         entity_manager->setCamera(main_cam, glm::vec3(0.0f, 0.0f, 101.0f));
@@ -73,7 +73,7 @@ public:
         updateDirections(entity_manager);
         // proceessAttacks(entity_manager, event_manager, inputs);
         processDrivers(entity_manager);
-        event_manager.run_events(entity_manager);
+        event_manager.runEvents(entity_manager);
         renderer.render(window, main_cam, entity_manager);
 
         if (inputs.getKey(GLFW_KEY_ESCAPE) >= GLFW_PRESS)

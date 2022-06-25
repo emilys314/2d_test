@@ -28,10 +28,10 @@ float angled_square_vertices[] = {
     -0.5f, 0.5f, 1.0f, 0.0f, 1.0f   // top left
 };
 
-class Model_Manager {
+class ModelManager {
     std::map<std::string, Model> models = {};
 
-    void load_flat_square() {
+    void loadFlatSquare() {
         Model temp_model = {};
 
         glGenVertexArrays(1, &temp_model.VAO);
@@ -55,7 +55,7 @@ class Model_Manager {
         models["flat_square"] = temp_model;
     }
 
-    void load_angled_square() {
+    void loadAngledSquare() {
         Model temp_model = {};
 
         glGenVertexArrays(1, &temp_model.VAO);
@@ -80,9 +80,9 @@ class Model_Manager {
     }
 
 public:
-    Model_Manager() {
-        load_flat_square();
-        load_angled_square();
+    ModelManager() {
+        loadFlatSquare();
+        loadAngledSquare();
     }
 
     Model get(std::string file_path) {

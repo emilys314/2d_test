@@ -19,11 +19,11 @@ public:
 
     }
 
-    void add_regular_event(std::unique_ptr<Event> event) {
+    void addRegularEvent(std::unique_ptr<Event> event) {
         regular_queue.push(std::move(event));
     }
 
-    void run_events(std::shared_ptr<EntityManager> entity_manager) {
+    void runEvents(std::shared_ptr<EntityManager> entity_manager) {
         if (!regular_queue.empty()) {
             regular_queue.front()->execute();
             regular_queue.pop();
