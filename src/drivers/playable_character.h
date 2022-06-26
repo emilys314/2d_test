@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "parent_driver.h"
 #include "../events/event_handler.h"
-#include "../events/event_attack.h"
+#include "../events/event_attack_melee.h"
 #include "../logic/timer.h"
 #include "../window_stuff/inputs.h"
 
@@ -23,21 +23,19 @@ public:
         event_handler(event_handler), inputs(inputs), timer(timer) {
         this->entity_manager = entity_manager;
         this->player_id = player_id;
-        printf("PlayableCharacter created\n");
+        // printf("PlayableCharacter created\n");
     }
 
     void checkInputs() {
-        // printf("PlayableCharacter check_input\n");
         if (inputs.getMouseButton(GLFW_MOUSE_BUTTON_LEFT) > 0 && last_mouse_button_left == 0) {
-            printf("Driver proceessAttacks\n");
             std::unique_ptr<Event> attack(new EventAttack(entity_manager, event_handler, entity_manager->player));
             event_handler.addRegularEvent(std::move(attack));
         }
         last_mouse_button_left = inputs.getMouseButton(GLFW_MOUSE_BUTTON_LEFT);
 
-        float speed = 64.0f * timer.getDeltaTime();
+        float speed = 64.0f;
 
-        glm::vec2 direction = glm::vec2(0.0f, 0.0f);
+        glm::vec2 direction = {0.0f, 0.0f};
         if (inputs.getKey(GLFW_KEY_W) >= GLFW_PRESS) {
             direction += glm::vec2(0.0f, speed);
             entity_manager->getDirectional(player_id).direction = NORTH;

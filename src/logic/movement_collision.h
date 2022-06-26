@@ -10,6 +10,7 @@
 
 #include "timer.h"
 #include "../entity_management/entity_manager.h"
+#include "../entity_management/collision_area.h"
 #include "../window_stuff/inputs.h"
 
 bool isOverlapping1D(float xmin1, float xmax1, float xmin2, float xmax2) {
@@ -17,50 +18,49 @@ bool isOverlapping1D(float xmin1, float xmax1, float xmin2, float xmax2) {
 }
 
 void processMovementCollisions(Timer timer, Inputs& inputs, std::shared_ptr<EntityManager> entity_manager, int player_id) {
-    float speed = 64.0f * timer.getDeltaTime();
+    float delta = timer.getDeltaTime();
 
-    glm::vec2 new_position = entity_manager->getRenderable(player_id).position + entity_manager->getMovement(player_id).velocity;
+    // for each collision area
+    for (auto& [a, a_movement] : entity_manager->movements) {
+        // if it is moving
+        if (a_movement.velocity != glm::vec2(0.0f, 0.0f)) {
+            glm::vec2 a_desired_velocity = entity_manager->getMovement(a).velocity;
+            // check for collisions
+            auto a_collision_area_iterator = entity_manager->collision_areas.find(a);
+            if (a_collision_area_iterator != entity_manager->collision_areas.end()) {
+                for (auto& [b, b_collision_area] : entity_manager->collision_areas) {
+                    // glm::vec2 a_position = entity_manager->getRenderable(a).position;
+                    // glm::vec2 b_position = entity_manager->getRenderable(b).position;
 
-    // bounding box points for player
-    float xmin1 = new_position.x + entity_manager->getBoundingBox(player_id).xmin;
-    float xmax1 = new_position.x + entity_manager->getBoundingBox(player_id).xmax;
-    float ymin1 = new_position.y + entity_manager->getBoundingBox(player_id).ymin;
-    float ymax1 = new_position.y + entity_manager->getBoundingBox(player_id).ymax;
+                    CollisionArea a_new_collision_area = a_collision_area_iterator->second;
+                    a_new_collision_area.offsetBy(a_desired_velocity * delta);
 
-    // loop through all bounding boxes
-    for (auto const& [id, box] : entity_manager->boundingBoxes)
-    {
-        if (id != player_id)
-        {
-            // bounding box points for current entity
-            float xmin2 = entity_manager->getRenderable(id).position.x + box.xmin;
-            float xmax2 = entity_manager->getRenderable(id).position.x + box.xmax;
-            float ymin2 = entity_manager->getRenderable(id).position.y + box.ymin;
-            float ymax2 = entity_manager->getRenderable(id).position.y + box.ymax;
+                    if (a_new_collision_area.intersects(b_collision_area) && a != b) {
+                        // std::cout << "intersects" << entity_manager->getRenderable(a).position.x << " " << entity_manager->getRenderable(a).position.y << "\n";
+                        // std::cout << "intersects" << entity_manager->getCollisionArea(a).x_min << " " << entity_manager->getCollisionArea(a).y_min << "\n";
+                        a_desired_velocity = a_new_collision_area.resolveGoingInto(b_collision_area, a_desired_velocity);
+                        std::cout << "intersects" << a_desired_velocity.x << " " << a_desired_velocity.y << "\n";
 
-            // if the bounding boxes overlap
-            if (isOverlapping1D(xmin1, xmax1, xmin2, xmax2) && isOverlapping1D(ymin1, ymax1, ymin2, ymax2))
-            {
-                glm::vec2 new_collision_center = glm::vec2((xmin1 + xmax1) / 2, (ymin1 + ymax1) / 2);
-                glm::vec2 old_collision_center = new_collision_center - entity_manager->getMovement(player_id).velocity;
-                glm::vec2 tmp_collision_center = glm::vec2((xmin2 + xmax2) / 2, (ymin2 + ymax2) / 2);
-
-                // check if collision pair is more horizontal than vertical
-                glm::vec2 diff = old_collision_center - tmp_collision_center;
-                if (abs(diff.x) > abs(diff.y))
-                    entity_manager->getMovement(player_id).velocity.x = 0.0f; // resolve the illegal movement
-                else
-                    entity_manager->getMovement(player_id).velocity.y = 0.0f;
+                        // entity_manager->getRenderable(a).position += (resolved_velocity * delta);
+                        // entity_manager->getMovement(a).velocity = resolved_velocity * delta;
+                        // entity_manager->getCollisionArea(a).offsetBy(resolved_velocity * delta);
+                    }
+                }
+                entity_manager->getMovement(a).velocity = a_desired_velocity * delta;
+                entity_manager->getRenderable(a).position += (a_desired_velocity * delta);
+                entity_manager->getCollisionArea(a).offsetBy(a_desired_velocity * delta);
             }
+            entity_manager->getRenderable(a).position += entity_manager->getMovement(a).velocity * delta;
+            // entity_manager->getCollisionArea(player_id).offsetBy(entity_manager->getMovement(player_id).velocity);
+
         }
+
     }
 
-    entity_manager->getRenderable(player_id).position += entity_manager->getMovement(player_id).velocity;
 }
 
 void updateDirections(std::shared_ptr<EntityManager> entity_manager) {
-    for (auto const& [id, directional] : entity_manager->directionals)
-    {
+    for (auto const& [id, directional] : entity_manager->directionals) {
         if (directional.direction == SOUTH)
             entity_manager->getRenderable(id).textures = directional.south_textures;
         if (directional.direction == WEST)

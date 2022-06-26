@@ -7,6 +7,7 @@
 #include <memory>
 #include <vector>
 
+#include "../drivers/driver_camera.h"
 #include "../entity_creation/rock.h"
 #include "../entity_creation/player.h"
 #include "../entity_management/entity_manager.h"
@@ -17,7 +18,7 @@
 #include "../logic/expirable.h"
 #include "../logic/movement_collision.h"
 #include "../logic/timer.h"
-#include "../logic/update_camera.h"
+// #include "../logic/update_camera.h"
 #include "../window_stuff/inputs.h"
 #include "../window_stuff/window.h"
 
@@ -42,10 +43,10 @@ public:
         // PLAYER
         player = createPlayer(entity_manager, event_handler, timer, inputs, glm::vec2(0.0f, 0.0f));
 
-
         // BEAR
         int bear = entity_manager->createEntity("bear");
         entity_manager->setRenderable(bear, glm::vec2(0.0f, 32.0f), 16.0f, {"res/bear.png"}, "angled_square");
+        entity_manager->setHitArea(bear, -10.0f, 10.0f, -10.0f, 10.0f);
 
         // GRASS FLOOR
         for (int x = -20; x <= 20; x++) {
@@ -60,6 +61,8 @@ public:
 
         main_cam = entity_manager->createEntity("camera");
         entity_manager->setCamera(main_cam, glm::vec3(0.0f, 0.0f, 101.0f));
+        std::shared_ptr<Driver> pc(new DriverCamera(entity_manager, main_cam, player));
+        entity_manager->setDriver(main_cam, std::move(pc));
 
     }
 
@@ -67,7 +70,7 @@ public:
         timer.setTime();
         proceessExpirables(entity_manager, timer);
         processMovementCollisions(timer, inputs, entity_manager, player);
-        updateCameraPosition(entity_manager, main_cam, player);
+        // updateCameraPosition(entity_manager, main_cam, player);
         updateDirections(entity_manager);
         // proceessAttacks(entity_manager, event_handler, inputs);
         processDrivers(entity_manager);

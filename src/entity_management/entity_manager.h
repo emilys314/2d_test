@@ -14,6 +14,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "collision_area.h"
 #include "../drivers/parent_driver.h"
 #include "../graphics/texture.h"
 #include "../res_loader/model_manager.h"
@@ -24,8 +25,8 @@ struct Entity {
 };
 
 struct Renderable {
-    glm::vec2 position = {0.0f, 0.0f};
-    glm::vec3 scale = {1.0f, 1.0f, 1.0f};
+    glm::vec2 position = { 0.0f, 0.0f };
+    glm::vec3 scale = { 1.0f, 1.0f, 1.0f };
     float height;
     std::vector<Texture> textures;
     int texture_index = 0;
@@ -48,18 +49,11 @@ struct Directional {
     int direction = SOUTH;
 };
 
-struct BoundingBox {
-    float xmin, xmax;
-    float ymin, ymax;
-};
-
 struct Movement {
     glm::vec2 velocity = glm::vec2(0.0f, 0.0f);
     float weight = 100.0f;
     float friction = 1.0f;
 };
-
-
 
 class EntityManager {
 private:
@@ -70,18 +64,18 @@ private:
 
 public:
     int player = -1;
-    
 
-    std::map<int, Entity> entity_ids = {};
-    std::map<int, Renderable> renderables = {};
-    std::map<int, glm::vec3> cameras = {};
-    std::map<int, Directional> directionals = {};
-    std::map<int, BoundingBox> boundingBoxes = {};
-    std::map<int, Movement> movements = {};
-    std::map<int, double> expirations = {};     // TODO chagne to more efficient data structure
-    std::map<int, std::shared_ptr<Driver>> drivers = {};
+    std::unordered_map<int, Entity> entity_ids = {};
+    std::unordered_map<int, Renderable> renderables = {};
+    std::unordered_map<int, glm::vec3> cameras = {};
+    std::unordered_map<int, Directional> directionals = {};
+    std::unordered_map<int, CollisionArea> collision_areas = {};
+    std::unordered_map<int, CollisionArea> hitAreas = {};
+    std::unordered_map<int, Movement> movements = {};
+    std::unordered_map<int, double> expirations = {};     // TODO chagne to more efficient data structure
+    std::unordered_map<int, std::shared_ptr<Driver>> drivers = {};
 
-    EntityManager() { }
+    EntityManager() {}
 
     //// Entity ////
     int createEntity(std::string name = "") {
@@ -99,9 +93,9 @@ public:
         renderables.erase(id);
         cameras.erase(id);
         directionals.erase(id);
-        boundingBoxes.erase(id);
+        collision_areas.erase(id);
+        hitAreas.erase(id);
         movements.erase(id);
-        // attacks.erase(id);
         expirations.erase(id);
         drivers.erase(id);
 
@@ -113,7 +107,7 @@ public:
     //// Square ////
     Renderable& setRenderable(int id, glm::vec2 pos, float height, std::vector<const char*> texture_paths, std::string model, int parent = 0) {
         std::vector<Texture> textures = texture_manager.get(texture_paths);
-        glm::vec3 scale = {textures[0].width, textures[0].height, textures[0].height};
+        glm::vec3 scale = { textures[0].width, textures[0].height, textures[0].height };
         Renderable square = { pos, scale, height, textures, 0, model_manager.get(model), parent };
         renderables.emplace(id, square);
         return renderables[id];
@@ -154,14 +148,32 @@ public:
         directionals[id].direction = direction;
     }
 
-    //// Bounding Boxes ////
-    void setBoundingBox(int id, float xmin, float xmax, float ymin, float ymax) {
-        BoundingBox box = { xmin, xmax, ymin, ymax };
-        boundingBoxes.emplace(id, box);
+    //// Collision Area ////
+    void setCollisionArea(int id, float x_min_rel, float x_max_rel, float y_min_rel, float y_max_rel) {
+        if (this->renderables.count(id) > 0) {
+            CollisionArea collision_area = CollisionArea(x_min_rel, x_max_rel, y_min_rel, y_max_rel, this->renderables[id].position);
+            collision_areas.emplace(id, collision_area);
+        } else {
+            std::cout << "setCollisionArea expects position created for " << id << " " << this->getEntity(id).name << "\n";
+        }
     }
 
-    BoundingBox& getBoundingBox(int id) {
-        return boundingBoxes[id];
+    CollisionArea& getCollisionArea(int id) {
+        return collision_areas[id];
+    }
+
+    //// Hit Area ////
+    void setHitArea(int id, float x_min_rel, float x_max_rel, float y_min_rel, float y_max_rel) {
+        if (this->renderables.count(id) > 0) {
+            CollisionArea collision_area = CollisionArea(x_min_rel, x_max_rel, y_min_rel, y_max_rel, this->renderables[id].position);
+            hitAreas.emplace(id, collision_area);
+        } else {
+            std::cout << "setHitArea expects position created for " << id << " " << this->getEntity(id).name << "\n";
+        }
+    }
+
+    CollisionArea& getHitArea(int id) {
+        return hitAreas[id];
     }
 
     //// Movement ////
