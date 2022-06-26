@@ -13,7 +13,7 @@
 #include "../entity_management/collision_area.h"
 #include "../window_stuff/inputs.h"
 
-void processMovementCollisions(Timer timer, Inputs& inputs, std::shared_ptr<EntityManager> entity_manager, int player_id) {
+void processMovementCollisions(Timer timer, Inputs& inputs, std::shared_ptr<EntityManager> entity_manager) {
     float delta = timer.getDeltaTime();
 
     // for each entity that has movement property

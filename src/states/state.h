@@ -69,7 +69,7 @@ public:
     void step(Window& window, Inputs& inputs) {
         timer.setTime();
         proceessExpirables(entity_manager, timer);
-        processMovementCollisions(timer, inputs, entity_manager, player);
+        processMovementCollisions(timer, inputs, entity_manager);
         // updateCameraPosition(entity_manager, main_cam, player);
         updateDirections(entity_manager);
         // proceessAttacks(entity_manager, event_handler, inputs);
